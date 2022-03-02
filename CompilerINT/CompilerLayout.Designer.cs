@@ -59,6 +59,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archivoToolStripMenuItem,
@@ -77,6 +78,7 @@
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFileToolStripMenuItem,
             this.saveAsToolStripMenuItem});
+            this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.archivoToolStripMenuItem.Text = "File";
@@ -85,7 +87,7 @@
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
             this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.openFileToolStripMenuItem.Text = "Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
@@ -93,37 +95,41 @@
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
+            this.editToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // formatToolStripMenuItem
             // 
+            this.formatToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.formatToolStripMenuItem.Name = "formatToolStripMenuItem";
             this.formatToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.formatToolStripMenuItem.Text = "Format";
             // 
             // compileToolStripMenuItem
             // 
+            this.compileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.compileToolStripMenuItem.Name = "compileToolStripMenuItem";
             this.compileToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
             this.compileToolStripMenuItem.Text = "Compile";
             // 
             // helpToolStripMenuItem
             // 
+            this.helpToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // txtFileContent
             // 
-            this.txtFileContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(35)))));
+            this.txtFileContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(32)))), ((int)(((byte)(33)))));
             this.txtFileContent.ForeColor = System.Drawing.SystemColors.Info;
             this.txtFileContent.Location = new System.Drawing.Point(12, 113);
             this.txtFileContent.Name = "txtFileContent";
@@ -133,7 +139,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(246)))));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.panel1.Controls.Add(this.richTextBox2);
             this.panel1.Controls.Add(this.menuStrip2);
             this.panel1.Location = new System.Drawing.Point(828, 113);
@@ -152,7 +158,7 @@
             // 
             // menuStrip2
             // 
-            this.menuStrip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(246)))));
+            this.menuStrip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.menuStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lexicToolStripMenuItem,
@@ -167,26 +173,35 @@
             // 
             // lexicToolStripMenuItem
             // 
+            this.lexicToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lexicToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.lexicToolStripMenuItem.Name = "lexicToolStripMenuItem";
-            this.lexicToolStripMenuItem.Size = new System.Drawing.Size(56, 24);
+            this.lexicToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
             this.lexicToolStripMenuItem.Text = "Lexic";
             // 
             // syntacticToolStripMenuItem
             // 
+            this.syntacticToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.syntacticToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.syntacticToolStripMenuItem.Name = "syntacticToolStripMenuItem";
-            this.syntacticToolStripMenuItem.Size = new System.Drawing.Size(82, 24);
+            this.syntacticToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
             this.syntacticToolStripMenuItem.Text = "Syntactic";
             // 
             // semanticToolStripMenuItem
             // 
+            this.semanticToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
+            this.semanticToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.semanticToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.semanticToolStripMenuItem.Name = "semanticToolStripMenuItem";
-            this.semanticToolStripMenuItem.Size = new System.Drawing.Size(84, 24);
+            this.semanticToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
             this.semanticToolStripMenuItem.Text = "Semantic";
             // 
             // intermediateCodeToolStripMenuItem
             // 
+            this.intermediateCodeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.intermediateCodeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.intermediateCodeToolStripMenuItem.Name = "intermediateCodeToolStripMenuItem";
-            this.intermediateCodeToolStripMenuItem.Size = new System.Drawing.Size(145, 24);
+            this.intermediateCodeToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.intermediateCodeToolStripMenuItem.Text = "Intermediate code";
             // 
             // panel2
@@ -210,7 +225,7 @@
             // 
             // menuStrip3
             // 
-            this.menuStrip3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(247)))), ((int)(((byte)(246)))));
+            this.menuStrip3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.menuStrip3.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.errorsToolStripMenuItem,
