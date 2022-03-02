@@ -29,6 +29,7 @@ namespace CompilerINT
             _IsAFileOpen = true;
             FE = _FileHelper.OpenFile();
             txtFileContent.Text = FE.FileContent;
+            txtFileName.Text = FE.FilePath;
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,6 +72,8 @@ namespace CompilerINT
                         _IsAFileOpen = true;
                         FE.IsNewFile = false;
                     }
+                    txtFileName.Text = FE.FilePath;
+
                 }
                 else
                 {
@@ -83,6 +86,11 @@ namespace CompilerINT
             {
                 //do something else
             }
+        }
+
+        private void txtFileName_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
