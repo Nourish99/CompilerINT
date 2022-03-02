@@ -34,6 +34,28 @@ namespace CompilerINT
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SaveFile();
+        }
+
+        private void txtFileName_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtFileContent.Text) || _IsAFileOpen)
+            {
+                SaveFile();
+                txtFileName.Text = "";
+                txtFileContent.Text = "";
+                FE=new FileElement();
+                _IsAFileOpen=false;
+            }
+           
+        }
+        private void SaveFile()
+        {
             bool FileSaved = false;
             DialogResult dialogResult = MessageBox.Show("Guardar", "Desea Guardar los cambios?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -86,11 +108,6 @@ namespace CompilerINT
             {
                 //do something else
             }
-        }
-
-        private void txtFileName_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
