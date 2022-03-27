@@ -32,6 +32,7 @@
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.compileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,7 +53,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.FileName = new System.Windows.Forms.Label();
             this.txtFileName = new System.Windows.Forms.Label();
-            this.newFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.numLines = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
@@ -72,8 +73,8 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1236, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(1413, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -85,14 +86,14 @@
             this.newFileToolStripMenuItem});
             this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.archivoToolStripMenuItem.Text = "File";
             // 
             // openFileToolStripMenuItem
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
             this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.openFileToolStripMenuItem.Text = "Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
@@ -100,67 +101,76 @@
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
+            // 
+            // newFileToolStripMenuItem
+            // 
+            this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
+            this.newFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
+            this.newFileToolStripMenuItem.Text = "New File";
+            this.newFileToolStripMenuItem.Click += new System.EventHandler(this.newFileToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // formatToolStripMenuItem
             // 
             this.formatToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.formatToolStripMenuItem.Name = "formatToolStripMenuItem";
-            this.formatToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.formatToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.formatToolStripMenuItem.Text = "Format";
             // 
             // compileToolStripMenuItem
             // 
             this.compileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.compileToolStripMenuItem.Name = "compileToolStripMenuItem";
-            this.compileToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.compileToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
             this.compileToolStripMenuItem.Text = "Compile";
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // txtFileContent
             // 
             this.txtFileContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(32)))), ((int)(((byte)(33)))));
             this.txtFileContent.ForeColor = System.Drawing.SystemColors.Info;
-            this.txtFileContent.Location = new System.Drawing.Point(10, 85);
-            this.txtFileContent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtFileContent.Location = new System.Drawing.Point(55, 113);
             this.txtFileContent.Name = "txtFileContent";
-            this.txtFileContent.Size = new System.Drawing.Size(699, 391);
+            this.txtFileContent.Size = new System.Drawing.Size(754, 520);
             this.txtFileContent.TabIndex = 1;
             this.txtFileContent.Text = "";
+            this.txtFileContent.SelectionChanged += new System.EventHandler(this.txtFileContent_SelectionChanged);
+            this.txtFileContent.VScroll += new System.EventHandler(this.txtFileContent_VScroll);
+            this.txtFileContent.FontChanged += new System.EventHandler(this.txtFileContent_FontChanged);
+            this.txtFileContent.TextChanged += new System.EventHandler(this.txtFileContent_TextChanged);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.panel1.Controls.Add(this.richTextBox2);
             this.panel1.Controls.Add(this.menuStrip2);
-            this.panel1.Location = new System.Drawing.Point(724, 85);
-            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel1.Location = new System.Drawing.Point(827, 113);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(501, 390);
+            this.panel1.Size = new System.Drawing.Size(573, 520);
             this.panel1.TabIndex = 2;
             // 
             // richTextBox2
             // 
             this.richTextBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(35)))));
-            this.richTextBox2.Location = new System.Drawing.Point(14, 29);
-            this.richTextBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.richTextBox2.Location = new System.Drawing.Point(16, 39);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(472, 349);
+            this.richTextBox2.Size = new System.Drawing.Size(539, 464);
             this.richTextBox2.TabIndex = 1;
             this.richTextBox2.Text = "";
             // 
@@ -175,8 +185,8 @@
             this.intermediateCodeToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip2.Size = new System.Drawing.Size(501, 24);
+            this.menuStrip2.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.menuStrip2.Size = new System.Drawing.Size(573, 30);
             this.menuStrip2.TabIndex = 0;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -185,7 +195,7 @@
             this.lexicToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lexicToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.lexicToolStripMenuItem.Name = "lexicToolStripMenuItem";
-            this.lexicToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.lexicToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
             this.lexicToolStripMenuItem.Text = "Lexic";
             // 
             // syntacticToolStripMenuItem
@@ -193,7 +203,7 @@
             this.syntacticToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.syntacticToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.syntacticToolStripMenuItem.Name = "syntacticToolStripMenuItem";
-            this.syntacticToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.syntacticToolStripMenuItem.Size = new System.Drawing.Size(86, 24);
             this.syntacticToolStripMenuItem.Text = "Syntactic";
             // 
             // semanticToolStripMenuItem
@@ -202,7 +212,7 @@
             this.semanticToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.semanticToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.semanticToolStripMenuItem.Name = "semanticToolStripMenuItem";
-            this.semanticToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
+            this.semanticToolStripMenuItem.Size = new System.Drawing.Size(87, 24);
             this.semanticToolStripMenuItem.Text = "Semantic";
             // 
             // intermediateCodeToolStripMenuItem
@@ -210,7 +220,7 @@
             this.intermediateCodeToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.intermediateCodeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.intermediateCodeToolStripMenuItem.Name = "intermediateCodeToolStripMenuItem";
-            this.intermediateCodeToolStripMenuItem.Size = new System.Drawing.Size(123, 20);
+            this.intermediateCodeToolStripMenuItem.Size = new System.Drawing.Size(151, 24);
             this.intermediateCodeToolStripMenuItem.Text = "Intermediate code";
             // 
             // panel2
@@ -218,19 +228,17 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(75)))), ((int)(((byte)(84)))));
             this.panel2.Controls.Add(this.richTextBox1);
             this.panel2.Controls.Add(this.menuStrip3);
-            this.panel2.Location = new System.Drawing.Point(10, 494);
-            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel2.Location = new System.Drawing.Point(11, 659);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1215, 143);
+            this.panel2.Size = new System.Drawing.Size(1389, 191);
             this.panel2.TabIndex = 3;
             // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(35)))));
-            this.richTextBox1.Location = new System.Drawing.Point(3, 23);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 31);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1211, 119);
+            this.richTextBox1.Size = new System.Drawing.Size(1383, 157);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = "";
             // 
@@ -243,30 +251,30 @@
             this.resultsToolStripMenuItem});
             this.menuStrip3.Location = new System.Drawing.Point(0, 0);
             this.menuStrip3.Name = "menuStrip3";
-            this.menuStrip3.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip3.Size = new System.Drawing.Size(1215, 24);
+            this.menuStrip3.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.menuStrip3.Size = new System.Drawing.Size(1389, 30);
             this.menuStrip3.TabIndex = 0;
             this.menuStrip3.Text = "menuStrip3";
             // 
             // errorsToolStripMenuItem
             // 
             this.errorsToolStripMenuItem.Name = "errorsToolStripMenuItem";
-            this.errorsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.errorsToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             this.errorsToolStripMenuItem.Text = "Errors";
             // 
             // resultsToolStripMenuItem
             // 
             this.resultsToolStripMenuItem.Name = "resultsToolStripMenuItem";
-            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.resultsToolStripMenuItem.Text = "Results";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(10, 40);
+            this.label1.Location = new System.Drawing.Point(11, 53);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 32);
+            this.label1.Size = new System.Drawing.Size(93, 40);
             this.label1.TabIndex = 4;
             this.label1.Text = "CODE";
             // 
@@ -274,9 +282,9 @@
             // 
             this.FileName.AutoSize = true;
             this.FileName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.FileName.Location = new System.Drawing.Point(10, 662);
+            this.FileName.Location = new System.Drawing.Point(11, 883);
             this.FileName.Name = "FileName";
-            this.FileName.Size = new System.Drawing.Size(99, 25);
+            this.FileName.Size = new System.Drawing.Size(122, 32);
             this.FileName.TabIndex = 5;
             this.FileName.Text = "FileName:";
             // 
@@ -284,26 +292,30 @@
             // 
             this.txtFileName.AutoSize = true;
             this.txtFileName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtFileName.Location = new System.Drawing.Point(115, 662);
+            this.txtFileName.Location = new System.Drawing.Point(131, 883);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(0, 25);
+            this.txtFileName.Size = new System.Drawing.Size(0, 32);
             this.txtFileName.TabIndex = 6;
             this.txtFileName.Click += new System.EventHandler(this.txtFileName_Click);
             // 
-            // newFileToolStripMenuItem
+            // numLines
             // 
-            this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
-            this.newFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.newFileToolStripMenuItem.Text = "New File";
-            this.newFileToolStripMenuItem.Click += new System.EventHandler(this.newFileToolStripMenuItem_Click);
+            this.numLines.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
+            this.numLines.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.numLines.Location = new System.Drawing.Point(21, 113);
+            this.numLines.Name = "numLines";
+            this.numLines.Size = new System.Drawing.Size(33, 520);
+            this.numLines.TabIndex = 7;
+            this.numLines.Text = "";
+            this.numLines.MouseDown += new System.Windows.Forms.MouseEventHandler(this.numLines_MouseDown);
             // 
             // CompilerLayout
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(1236, 706);
+            this.ClientSize = new System.Drawing.Size(1413, 941);
+            this.Controls.Add(this.numLines);
             this.Controls.Add(this.txtFileName);
             this.Controls.Add(this.FileName);
             this.Controls.Add(this.label1);
@@ -313,9 +325,10 @@
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(237)))), ((int)(((byte)(223)))));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "CompilerLayout";
             this.Text = "CompilerLayout";
+            this.Load += new System.EventHandler(this.CompilerLayout_Load);
+            this.Resize += new System.EventHandler(this.CompilerLayout_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -358,5 +371,6 @@
         private System.Windows.Forms.Label FileName;
         private System.Windows.Forms.Label txtFileName;
         private System.Windows.Forms.ToolStripMenuItem newFileToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox numLines;
     }
 }

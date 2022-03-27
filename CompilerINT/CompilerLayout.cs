@@ -109,5 +109,128 @@ namespace CompilerINT
                 //do something else
             }
         }
+
+        public int getWidth()
+        {
+            int w = 25;
+            // num. total de lineas de richTextBox
+            int line = txtFileContent.Lines.Length;
+
+            if (line <= 99)
+            {
+                w = 20 + (int)txtFileContent.Font.Size;
+            }
+            else if (line <= 999)
+            {
+                w = 30 + (int)txtFileContent.Font.Size;
+            }
+            else
+            {
+                w = 50 + (int)txtFileContent.Font.Size;
+            }
+
+            return w;
+        }
+
+        public void AddLineNumbers()
+        {
+            Point pt = new Point(0, 0);
+            int First_Index = txtFileContent.GetCharIndexFromPosition(pt);
+            int First_Line = txtFileContent.GetLineFromCharIndex(First_Index);
+            pt.X = ClientRectangle.Width;
+            pt.Y = ClientRectangle.Height;
+            int Last_Index = txtFileContent.GetCharIndexFromPosition(pt);
+            int Last_Line = txtFileContent.GetLineFromCharIndex(Last_Index);
+            numLines.SelectionAlignment = HorizontalAlignment.Center;
+            numLines.Text = "";
+            numLines.Width = getWidth();
+            for (int i = First_Line; i <= Last_Line + 1; i++)
+            {
+                numLines.Text += i + 1 + "\n";
+            }
+        }
+
+        private void CompilerLayout_Load(object sender, EventArgs e)
+        {
+            numLines.Font = txtFileContent.Font;
+            txtFileContent.Select();
+            AddLineNumbers();
+        }
+
+        private void txtFileContent_SelectionChanged(object sender, EventArgs e)
+        {
+            Point pt = txtFileContent.GetPositionFromCharIndex(txtFileContent.SelectionStart);
+            if (pt.X == 1)
+            {
+                AddLineNumbers();
+            }
+        }
+
+        private void txtFileContent_VScroll(object sender, EventArgs e)
+        {
+            numLines.Text = "";
+            AddLineNumbers();
+            numLines.Invalidate();
+        }
+
+        private void txtFileContent_TextChanged(object sender, EventArgs e)
+        {
+            if (txtFileContent.Text == "")
+            {
+                AddLineNumbers();
+            }
+
+            CheckKeyword("program", Color.IndianRed, 0);
+            CheckKeyword("if", Color.Orange, 0);
+            CheckKeyword("else", Color.Orange, 0);
+            CheckKeyword("fi", Color.Orange, 0);
+            CheckKeyword("do", Color.Yellow, 0);
+            CheckKeyword("until", Color.Yellow, 0);
+            CheckKeyword("while", Color.Yellow, 0);
+            CheckKeyword("read", Color.LightGreen, 0);
+            CheckKeyword("write", Color.LightGreen, 0);
+            CheckKeyword("float", Color.Aqua, 0);
+            CheckKeyword("int", Color.Aqua, 0);
+            CheckKeyword("bool", Color.Aqua, 0);
+            CheckKeyword("not", Color.LightPink, 0);
+            CheckKeyword("and", Color.LightPink, 0);
+            CheckKeyword("or", Color.LightPink, 0);
+        }
+
+        private void CheckKeyword(string word, Color color, int startIndex)
+        {
+            if (txtFileContent.Text.Contains(word))
+            {
+                int index = -1;
+                int selectStart = txtFileContent.SelectionStart;
+
+                while ((index = txtFileContent.Text.IndexOf(word, (index + 1))) != -1)
+                {
+                    txtFileContent.Select((index + startIndex), word.Length);
+                    txtFileContent.SelectionColor = color;
+                    txtFileContent.Select(selectStart, 0);
+                    txtFileContent.SelectionColor = Color.White;
+                }
+            }
+
+        }
+
+        private void txtFileContent_FontChanged(object sender, EventArgs e)
+        {
+            numLines.Font = txtFileContent.Font;
+            txtFileContent.Select();
+            AddLineNumbers();
+        }
+
+        private void numLines_MouseDown(object sender, MouseEventArgs e)
+        {
+            txtFileContent.Select();
+            numLines.DeselectAll();
+        }
+
+        private void CompilerLayout_Resize(object sender, EventArgs e)
+        {
+            AddLineNumbers();
+        }
     }
 }
