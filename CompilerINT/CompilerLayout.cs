@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CompilerCLI.Helpers;
+using CompilerCLI.Models;
 
 namespace CompilerINT
 {
@@ -18,10 +20,12 @@ namespace CompilerINT
         private FileElement FE = new FileElement();
         private IFileHelper _FileHelper = new FileHelper();
         private bool _IsAFileOpen;
+        private ProceduresHelper proceduresHelper = new ProceduresHelper();
         public CompilerLayout()
         {
             _IsAFileOpen = false;
             InitializeComponent();
+            SetupLexTable(lexicDataGridView);
         }
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -195,6 +199,8 @@ namespace CompilerINT
             CheckKeyword("not", Color.LightPink, 0);
             CheckKeyword("and", Color.LightPink, 0);
             CheckKeyword("or", Color.LightPink, 0);
+
+            
         }
 
         private void CheckKeyword(string word, Color color, int startIndex)
@@ -232,5 +238,136 @@ namespace CompilerINT
         {
             AddLineNumbers();
         }
+
+        private void MakeLexicalAnalisis()
+        {
+            
+            //se realiza el analisis
+            try
+            {
+                LexerResultModel lrm = proceduresHelper.GetLexerAnalisisFromText(txtFileContent.Text);
+                //revisamos lo que obtuvimos
+                if (lrm.Results == null)
+                {
+                    MessageBox.Show("Error al realizar el analisis lexico! \n Archivo vacio");
+                    return;
+                }
+                
+                //
+                PopulateLexTable(lrm.Results);
+                if (lrm.Errorrs == null)
+                {
+                    //Aqui meter en la pestaña de errores que no hubo
+                    richTextBox1.Text += "\n No hay errores del lexico!";
+                }
+                else
+                {
+                    PopulateLexErrorsTable(lrm.Errorrs);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al realizar el analisis lexico!");
+            }
+        }
+
+        private void SetupLexTable(DataGridView dtgv)
+        {
+            dtgv.ColumnCount = 5;
+            dtgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            dtgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dtgv.ColumnHeadersDefaultCellStyle.Font = new Font(lexicDataGridView.Font, FontStyle.Bold);
+
+            dtgv.AutoSizeRowsMode =
+            DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dtgv.ColumnHeadersBorderStyle =
+                DataGridViewHeaderBorderStyle.Single;
+            dtgv.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dtgv.GridColor = Color.Black;
+            dtgv.RowHeadersVisible = false;
+
+            dtgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dtgv.Columns[0].Name = "N°";
+            dtgv.Columns[1].Name = "Token";
+            dtgv.Columns[2].Name = "Description";
+            dtgv.Columns[3].Name = "Line";
+            dtgv.Columns[4].Name = "Column";
+
+            dtgv.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+            dtgv.MultiSelect = false;
+            dtgv.Dock = DockStyle.Fill;
+        }
+
+        private void PopulateLexTable(List<TokenItem> ls)
+        {
+            lexicDataGridView.Rows.Clear();
+            int i = 1;
+            foreach (TokenItem item in ls)
+            {
+                lexicDataGridView.Rows.Add(new string[]{ i++.ToString(), item.TokenName, item.TokenDesc, item.TokenLine.ToString(),item.TokenCol.ToString()});
+            }
+        }
+        private void PopulateLexErrorsTable(List<TokenItem> ls)
+        {
+            foreach (TokenItem item in ls)
+            {
+                lexicDataGridView.Rows.Add(new string[] { "*", item.TokenName, item.TokenDesc, item.TokenLine.ToString(), item.TokenCol.ToString() });
+            }
+            foreach (DataGridViewRow Myrow in lexicDataGridView.Rows)
+            {
+                if (Myrow.Cells[0].Value != null)
+                {
+                    if (Myrow.Cells[0].Value.ToString() == "*")//"))//Columns.Contains("SOLD"))//Columns.Contains("SOLD"))
+                    {
+                        Myrow.DefaultCellStyle.BackColor = Color.Red;
+
+                    }
+                }
+                
+            }
+        }
+
+        private void compileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //revisamos si esta guardado el archivo
+            SaveFile();
+            if (!_IsAFileOpen)
+            {
+                MessageBox.Show("Guarda Primero el Archivo!");
+                return;
+            }
+            //Aqui realizamos el analisis lexico si existe un archivo guardado
+            MakeLexicalAnalisis();
+           
+        }
     }
 }
+
+/*lexicDataGridView.ColumnCount = 5;
+            lexicDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            lexicDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            lexicDataGridView.ColumnHeadersDefaultCellStyle.Font = new Font(lexicDataGridView.Font, FontStyle.Bold);
+
+            lexicDataGridView.AutoSizeRowsMode =
+            DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            lexicDataGridView.ColumnHeadersBorderStyle =
+                DataGridViewHeaderBorderStyle.Single;
+            lexicDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            lexicDataGridView.GridColor = Color.Black;
+            lexicDataGridView.RowHeadersVisible = false;
+
+            lexicDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            lexicDataGridView.Columns[0].Name = "N°";
+            lexicDataGridView.Columns[1].Name = "Token";
+            lexicDataGridView.Columns[2].Name = "Description";
+            lexicDataGridView.Columns[3].Name = "Line";
+            lexicDataGridView.Columns[4].Name = "Column";
+            
+            lexicDataGridView.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+            lexicDataGridView.MultiSelect = false;
+            lexicDataGridView.Dock = DockStyle.Fill;*/
