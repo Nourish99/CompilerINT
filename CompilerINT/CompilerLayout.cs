@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompilerCLI.Helpers;
 using CompilerCLI.Models;
+using Antlr4.Runtime.Tree;
 
 namespace CompilerINT
 {
@@ -265,6 +266,20 @@ namespace CompilerINT
                     PopulateLexErrorsTable(lrm.Errorrs);
                 }
 
+                ParserResultModel prm = proceduresHelper.GetParserAnalisis(txtFileContent.Text);
+                if (prm.Errors!=null)
+                {
+                    richTextBox1.Text = "";
+                    richTextBox1.Text += "Mensaje\tLinea\tColumna";
+                    foreach (var item in prm.Errors)
+                    {
+                        //"Mensaje\tLinea\tColumna"i.getMessage() + "\t" + i.getLine() + "\t" +  i.getCharPositionInLine()
+                        richTextBox1.Text += $"\n{item.getMessage()}\t{item.getLine()}\t{item.getCharPositionInLine()}";
+                    }
+                }
+                richTextBoxSintatic.Text = "";
+                richTextBoxSintatic.Text = Trees.ToStringTree(prm.treeCST);
+
             }
             catch (Exception ex)
             {
@@ -342,6 +357,26 @@ namespace CompilerINT
             //Aqui realizamos el analisis lexico si existe un archivo guardado
             MakeLexicalAnalisis();
            
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabSintactic_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lexicDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void richTextBoxSintatic_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

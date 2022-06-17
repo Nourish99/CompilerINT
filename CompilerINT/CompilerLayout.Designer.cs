@@ -49,16 +49,18 @@
             this.numLines = new System.Windows.Forms.RichTextBox();
             this.tabResults = new System.Windows.Forms.TabControl();
             this.tabLexic = new System.Windows.Forms.TabPage();
+            this.lexicDataGridView = new System.Windows.Forms.DataGridView();
             this.tabSintactic = new System.Windows.Forms.TabPage();
             this.tabSemantic = new System.Windows.Forms.TabPage();
             this.tabICode = new System.Windows.Forms.TabPage();
-            this.lexicDataGridView = new System.Windows.Forms.DataGridView();
+            this.richTextBoxSintatic = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.menuStrip3.SuspendLayout();
             this.tabResults.SuspendLayout();
             this.tabLexic.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lexicDataGridView)).BeginInit();
+            this.tabSintactic.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -73,8 +75,8 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1236, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.menuStrip1.Size = new System.Drawing.Size(1413, 30);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -86,14 +88,14 @@
             this.newFileToolStripMenuItem});
             this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
             this.archivoToolStripMenuItem.Text = "File";
             // 
             // openFileToolStripMenuItem
             // 
             this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
             this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.openFileToolStripMenuItem.Text = "Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
@@ -101,7 +103,7 @@
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             this.saveAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.saveAsToolStripMenuItem.Text = "Save As";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
@@ -109,7 +111,7 @@
             // 
             this.newFileToolStripMenuItem.Name = "newFileToolStripMenuItem";
             this.newFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.newFileToolStripMenuItem.Size = new System.Drawing.Size(208, 26);
             this.newFileToolStripMenuItem.Text = "New File";
             this.newFileToolStripMenuItem.Click += new System.EventHandler(this.newFileToolStripMenuItem_Click);
             // 
@@ -117,21 +119,21 @@
             // 
             this.editToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
             this.editToolStripMenuItem.Text = "Edit";
             // 
             // formatToolStripMenuItem
             // 
             this.formatToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.formatToolStripMenuItem.Name = "formatToolStripMenuItem";
-            this.formatToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
+            this.formatToolStripMenuItem.Size = new System.Drawing.Size(70, 24);
             this.formatToolStripMenuItem.Text = "Format";
             // 
             // compileToolStripMenuItem
             // 
             this.compileToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.compileToolStripMenuItem.Name = "compileToolStripMenuItem";
-            this.compileToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.compileToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
             this.compileToolStripMenuItem.Text = "Compile";
             this.compileToolStripMenuItem.Click += new System.EventHandler(this.compileToolStripMenuItem_Click);
             // 
@@ -139,17 +141,16 @@
             // 
             this.helpToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(55, 24);
             this.helpToolStripMenuItem.Text = "Help";
             // 
             // txtFileContent
             // 
             this.txtFileContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(32)))), ((int)(((byte)(33)))));
             this.txtFileContent.ForeColor = System.Drawing.SystemColors.Info;
-            this.txtFileContent.Location = new System.Drawing.Point(48, 85);
-            this.txtFileContent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtFileContent.Location = new System.Drawing.Point(55, 113);
             this.txtFileContent.Name = "txtFileContent";
-            this.txtFileContent.Size = new System.Drawing.Size(660, 391);
+            this.txtFileContent.Size = new System.Drawing.Size(754, 520);
             this.txtFileContent.TabIndex = 1;
             this.txtFileContent.Text = "";
             this.txtFileContent.SelectionChanged += new System.EventHandler(this.txtFileContent_SelectionChanged);
@@ -162,21 +163,21 @@
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(75)))), ((int)(((byte)(84)))));
             this.panel2.Controls.Add(this.richTextBox1);
             this.panel2.Controls.Add(this.menuStrip3);
-            this.panel2.Location = new System.Drawing.Point(10, 494);
-            this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.panel2.Location = new System.Drawing.Point(11, 659);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1215, 143);
+            this.panel2.Size = new System.Drawing.Size(1389, 191);
             this.panel2.TabIndex = 3;
             // 
             // richTextBox1
             // 
             this.richTextBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(35)))));
-            this.richTextBox1.Location = new System.Drawing.Point(3, 23);
-            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.richTextBox1.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.richTextBox1.Location = new System.Drawing.Point(3, 31);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(1211, 119);
+            this.richTextBox1.Size = new System.Drawing.Size(1383, 157);
             this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = "zxz<xxzx";
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // menuStrip3
             // 
@@ -187,30 +188,30 @@
             this.resultsToolStripMenuItem});
             this.menuStrip3.Location = new System.Drawing.Point(0, 0);
             this.menuStrip3.Name = "menuStrip3";
-            this.menuStrip3.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip3.Size = new System.Drawing.Size(1215, 24);
+            this.menuStrip3.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
+            this.menuStrip3.Size = new System.Drawing.Size(1389, 30);
             this.menuStrip3.TabIndex = 0;
             this.menuStrip3.Text = "menuStrip3";
             // 
             // errorsToolStripMenuItem
             // 
             this.errorsToolStripMenuItem.Name = "errorsToolStripMenuItem";
-            this.errorsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.errorsToolStripMenuItem.Size = new System.Drawing.Size(61, 24);
             this.errorsToolStripMenuItem.Text = "Errors";
             // 
             // resultsToolStripMenuItem
             // 
             this.resultsToolStripMenuItem.Name = "resultsToolStripMenuItem";
-            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.resultsToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.resultsToolStripMenuItem.Text = "Results";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(10, 40);
+            this.label1.Location = new System.Drawing.Point(11, 53);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 32);
+            this.label1.Size = new System.Drawing.Size(93, 40);
             this.label1.TabIndex = 4;
             this.label1.Text = "CODE";
             // 
@@ -218,9 +219,9 @@
             // 
             this.FileName.AutoSize = true;
             this.FileName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.FileName.Location = new System.Drawing.Point(10, 662);
+            this.FileName.Location = new System.Drawing.Point(11, 883);
             this.FileName.Name = "FileName";
-            this.FileName.Size = new System.Drawing.Size(99, 25);
+            this.FileName.Size = new System.Drawing.Size(122, 32);
             this.FileName.TabIndex = 5;
             this.FileName.Text = "FileName:";
             // 
@@ -228,9 +229,9 @@
             // 
             this.txtFileName.AutoSize = true;
             this.txtFileName.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.txtFileName.Location = new System.Drawing.Point(115, 662);
+            this.txtFileName.Location = new System.Drawing.Point(131, 883);
             this.txtFileName.Name = "txtFileName";
-            this.txtFileName.Size = new System.Drawing.Size(0, 25);
+            this.txtFileName.Size = new System.Drawing.Size(0, 32);
             this.txtFileName.TabIndex = 6;
             this.txtFileName.Click += new System.EventHandler(this.txtFileName_Click);
             // 
@@ -238,10 +239,9 @@
             // 
             this.numLines.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(117)))), ((int)(((byte)(125)))));
             this.numLines.ForeColor = System.Drawing.SystemColors.InactiveBorder;
-            this.numLines.Location = new System.Drawing.Point(18, 85);
-            this.numLines.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.numLines.Location = new System.Drawing.Point(21, 113);
             this.numLines.Name = "numLines";
-            this.numLines.Size = new System.Drawing.Size(29, 391);
+            this.numLines.Size = new System.Drawing.Size(33, 520);
             this.numLines.TabIndex = 7;
             this.numLines.Text = "";
             this.numLines.MouseDown += new System.Windows.Forms.MouseEventHandler(this.numLines_MouseDown);
@@ -252,10 +252,11 @@
             this.tabResults.Controls.Add(this.tabSintactic);
             this.tabResults.Controls.Add(this.tabSemantic);
             this.tabResults.Controls.Add(this.tabICode);
-            this.tabResults.Location = new System.Drawing.Point(727, 85);
+            this.tabResults.Location = new System.Drawing.Point(831, 113);
+            this.tabResults.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabResults.Name = "tabResults";
             this.tabResults.SelectedIndex = 0;
-            this.tabResults.Size = new System.Drawing.Size(497, 391);
+            this.tabResults.Size = new System.Drawing.Size(568, 521);
             this.tabResults.TabIndex = 8;
             // 
             // tabLexic
@@ -263,59 +264,77 @@
             this.tabLexic.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.tabLexic.Controls.Add(this.lexicDataGridView);
             this.tabLexic.ForeColor = System.Drawing.Color.Black;
-            this.tabLexic.Location = new System.Drawing.Point(4, 24);
+            this.tabLexic.Location = new System.Drawing.Point(4, 29);
+            this.tabLexic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabLexic.Name = "tabLexic";
-            this.tabLexic.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLexic.Size = new System.Drawing.Size(489, 363);
+            this.tabLexic.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabLexic.Size = new System.Drawing.Size(560, 488);
             this.tabLexic.TabIndex = 0;
             this.tabLexic.Text = "Lexic";
+            // 
+            // lexicDataGridView
+            // 
+            this.lexicDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.lexicDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lexicDataGridView.Location = new System.Drawing.Point(3, 4);
+            this.lexicDataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lexicDataGridView.Name = "lexicDataGridView";
+            this.lexicDataGridView.RowHeadersWidth = 51;
+            this.lexicDataGridView.RowTemplate.Height = 25;
+            this.lexicDataGridView.Size = new System.Drawing.Size(554, 480);
+            this.lexicDataGridView.TabIndex = 0;
+            this.lexicDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.lexicDataGridView_CellContentClick);
             // 
             // tabSintactic
             // 
             this.tabSintactic.BackColor = System.Drawing.Color.DimGray;
-            this.tabSintactic.Location = new System.Drawing.Point(4, 24);
+            this.tabSintactic.Controls.Add(this.richTextBoxSintatic);
+            this.tabSintactic.Location = new System.Drawing.Point(4, 29);
+            this.tabSintactic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabSintactic.Name = "tabSintactic";
-            this.tabSintactic.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSintactic.Size = new System.Drawing.Size(489, 363);
+            this.tabSintactic.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabSintactic.Size = new System.Drawing.Size(560, 488);
             this.tabSintactic.TabIndex = 1;
             this.tabSintactic.Text = "Sintactic";
+            this.tabSintactic.Click += new System.EventHandler(this.tabSintactic_Click);
             // 
             // tabSemantic
             // 
-            this.tabSemantic.Location = new System.Drawing.Point(4, 24);
+            this.tabSemantic.Location = new System.Drawing.Point(4, 29);
+            this.tabSemantic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabSemantic.Name = "tabSemantic";
-            this.tabSemantic.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSemantic.Size = new System.Drawing.Size(482, 363);
+            this.tabSemantic.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabSemantic.Size = new System.Drawing.Size(560, 488);
             this.tabSemantic.TabIndex = 2;
             this.tabSemantic.Text = "Semantic";
             this.tabSemantic.UseVisualStyleBackColor = true;
             // 
             // tabICode
             // 
-            this.tabICode.Location = new System.Drawing.Point(4, 24);
+            this.tabICode.Location = new System.Drawing.Point(4, 29);
+            this.tabICode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabICode.Name = "tabICode";
-            this.tabICode.Padding = new System.Windows.Forms.Padding(3);
-            this.tabICode.Size = new System.Drawing.Size(489, 363);
+            this.tabICode.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabICode.Size = new System.Drawing.Size(560, 488);
             this.tabICode.TabIndex = 3;
             this.tabICode.Text = "Intermediate Code";
             this.tabICode.UseVisualStyleBackColor = true;
             // 
-            // lexicDataGridView
+            // richTextBoxSintatic
             // 
-            this.lexicDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.lexicDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lexicDataGridView.Location = new System.Drawing.Point(3, 3);
-            this.lexicDataGridView.Name = "lexicDataGridView";
-            this.lexicDataGridView.RowTemplate.Height = 25;
-            this.lexicDataGridView.Size = new System.Drawing.Size(483, 357);
-            this.lexicDataGridView.TabIndex = 0;
+            this.richTextBoxSintatic.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxSintatic.Name = "richTextBoxSintatic";
+            this.richTextBoxSintatic.Size = new System.Drawing.Size(560, 488);
+            this.richTextBoxSintatic.TabIndex = 0;
+            this.richTextBoxSintatic.Text = "";
+            this.richTextBoxSintatic.TextChanged += new System.EventHandler(this.richTextBoxSintatic_TextChanged);
             // 
             // CompilerLayout
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(36)))), ((int)(((byte)(35)))));
-            this.ClientSize = new System.Drawing.Size(1236, 706);
+            this.ClientSize = new System.Drawing.Size(1413, 941);
             this.Controls.Add(this.tabResults);
             this.Controls.Add(this.numLines);
             this.Controls.Add(this.txtFileName);
@@ -326,7 +345,6 @@
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(237)))), ((int)(((byte)(223)))));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "CompilerLayout";
             this.Text = "CompilerLayout";
             this.Load += new System.EventHandler(this.CompilerLayout_Load);
@@ -340,6 +358,7 @@
             this.tabResults.ResumeLayout(false);
             this.tabLexic.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lexicDataGridView)).EndInit();
+            this.tabSintactic.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -372,5 +391,6 @@
         private System.Windows.Forms.TabPage tabSintactic;
         private System.Windows.Forms.TabPage tabSemantic;
         private System.Windows.Forms.TabPage tabICode;
+        private System.Windows.Forms.RichTextBox richTextBoxSintatic;
     }
 }

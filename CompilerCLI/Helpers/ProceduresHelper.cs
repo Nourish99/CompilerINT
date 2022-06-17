@@ -1,5 +1,7 @@
 ﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 using CompilerCLI.ANTLR4Files;
+using CompilerCLI.ANTLRParser.antlrOutput;
 using CompilerCLI.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CompilerCLI.Helpers
 {
-    
+
     public class ProceduresHelper
     {
         public static List<TokenItem> ResultsLexer = new List<TokenItem>();
@@ -30,6 +32,10 @@ namespace CompilerCLI.Helpers
                 TINYParser speakParser = new TINYParser(commonTokenStream);
                 commonTokenStream.Fill();
                 LexerResultModel lrm = new LexerResultModel() { Results = ResultsLexer, Errorrs = ErrorsLexer };
+                if (!string.IsNullOrEmpty(outDir))
+                {
+                    SaveLexerFileResults(lrm, outDir);
+                }
                 return lrm;
             }
             catch (Exception ex)
@@ -79,6 +85,117 @@ namespace CompilerCLI.Helpers
                 Console.WriteLine(string.Format("{0} Directory does not exist!", dirPath));
             }
         }
-        //public void Print
+        public void PrintLexerAnalysis(LexerResultModel lrm)
+        {
+            Console.WriteLine("Resultado de analisis lexico!");
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("TokenName\tLexema\tLinea\tColumna");
+            foreach (var i in lrm.Results)
+            {
+                Console.WriteLine(i.TokenName + "\t" + i.TokenDesc + "\t" + i.TokenLine + "\t" + i.TokenCol);
+            }
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("Tokens No reconocidos!");
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("TokenName\tLexema\tLinea\tColumna");
+            foreach (var i in lrm.Errorrs)
+            {
+                Console.WriteLine(i.TokenName + "\t" + i.TokenDesc + "\t" + i.TokenLine + "\t" + i.TokenCol);
+            }
+        }
+
+        public ParserResultModel GetParserAnalisis(string filePath, string outDir)
+        {
+            try
+            {
+                ParserResultModel parserResultModel = new ParserResultModel();
+
+                string text = System.IO.File.ReadAllText(filePath);
+                AntlrInputStream inputStream = new AntlrInputStream(text);
+                tinyLexer speakLexer = new tinyLexer(inputStream);
+                CommonTokenStream commonTokenStream = new CommonTokenStream(speakLexer);
+                tinyParser speakParser = new tinyParser(commonTokenStream) { BuildParseTree = true };
+                SyntaxErrorListener errorListener = new SyntaxErrorListener();
+                speakParser.AddErrorListener(errorListener);
+                commonTokenStream.Fill();
+                IParseTree parseTree = speakParser.parse();
+                ParseTreeWalker w = new ParseTreeWalker();
+                tinyBaseListener S = new tinyBaseListener();
+                w.Walk(S, parseTree);
+
+                parserResultModel.Errors = errorListener.GetSyntaxErrors();
+                parserResultModel.treeCST = parseTree;
+
+                //Console.WriteLine(Trees.ToStringTree(parseTree));
+                return parserResultModel;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Fatal Error: " + ex);
+                return null;
+            }
+        }
+        public ParserResultModel GetParserAnalisis(string text)
+        {
+            try
+            {
+                ParserResultModel parserResultModel = new ParserResultModel() { Errors=new List<SyntaxError>()};
+
+                AntlrInputStream inputStream = new AntlrInputStream(text);
+                tinyLexer speakLexer = new tinyLexer(inputStream);
+                CommonTokenStream commonTokenStream = new CommonTokenStream(speakLexer);
+                tinyParser speakParser = new tinyParser(commonTokenStream) { BuildParseTree = true };
+                SyntaxErrorListener errorListener = new SyntaxErrorListener();
+                speakParser.AddErrorListener(errorListener);
+                commonTokenStream.Fill();
+                IParseTree parseTree = speakParser.parse();
+                ParseTreeWalker w = new ParseTreeWalker();
+                tinyBaseListener S = new tinyBaseListener();
+                w.Walk(S, parseTree);
+
+                parserResultModel.Errors = errorListener.GetSyntaxErrors();
+                parserResultModel.treeCST = parseTree;
+                if (parserResultModel.Errors.Count>0)
+                {
+                    parserResultModel.IsCorrect = true;
+                }
+                else
+                {
+                    parserResultModel.IsCorrect = false;
+                }
+
+                //Console.WriteLine(Trees.ToStringTree(parseTree));
+                return parserResultModel;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Fatal Error: " + ex);
+                return null;
+            }
+        }
+
+        public void PrintParserAnalysis(ParserResultModel lrm)
+        {
+            Console.WriteLine("Resultado de analisis lexico!");
+            Console.WriteLine("*********************************************");
+            if (lrm.Errors.Count()>0)
+            {
+
+                Console.WriteLine("*********************************************");
+                Console.WriteLine("Errores de sintaxis reconocidos!");
+                Console.WriteLine("*********************************************");
+                Console.WriteLine("Mensaje\tLinea\tColumna");
+                foreach (var i in lrm.Errors)
+                {
+                    Console.WriteLine(i.getMessage() + "\t" + i.getLine() + "\t" +  i.getCharPositionInLine());
+                }
+            }
+            else
+            {
+                Console.WriteLine("*********************************************");
+                Console.WriteLine("Sin errores analisis correcto!");
+                Console.WriteLine("*********************************************");
+            }
+        }
     }
 }
