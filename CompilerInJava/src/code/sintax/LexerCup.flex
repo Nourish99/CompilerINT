@@ -1,12 +1,11 @@
-package code;
+package code.sintax;
 import static code.Tokens.*;
 
 
 %%
-%class Lexer
-%type Tokens
-%line
-%column
+%class LexerCup
+%type java_cup.runtime.Symbol
+
 
 Identifier=[a-zA-Z_][a-zA-Z_0-9]*
 Number=([1-9][0-9]*|0)(\.[0-9]*)*
@@ -15,9 +14,12 @@ CommentBlock=(\/\/~[\r\n]*|\/\*.*?\*\/)
 Space=[ \t\r\u000C]
 //String= ['](~['\r\n\\]|'\\'~[\r\n])*[']
 %{
-    public String lexeme;
-    public int line;
-    public int column;
+    private Symbol symbol(int type, Object value){
+      return new Symbol(type, yyline, yycolumn, value);
+    }
+    private Symbol symbol(int type){
+          return new Symbol(type, yyline, yycolumn);
+        }
 %}
 %%
 

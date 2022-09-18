@@ -2,6 +2,21 @@ package code;
 
 public enum Tokens {
     Reserved,
+    Program,
+    If,
+    Else,
+    Fi,
+    Do,
+    Until,
+    While,
+    Read,
+    Write,
+    FLOAT,
+    INT,
+    BOOL,
+    NOT,
+    AND,
+    OR,
     Add,
     Substract,
     Multiply,
@@ -24,5 +39,6 @@ public enum Tokens {
     Number,
     CommentBlock,
     SingleComment,
-    ERROR
+    ERROR,
+    Jump
 }
