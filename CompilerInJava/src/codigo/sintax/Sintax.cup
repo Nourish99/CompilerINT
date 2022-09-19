@@ -1,0 +1,58 @@
+package codigo.sintax;
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+
+    public void syntax_error (Symbol s){
+        this.s = se;
+    }
+
+    public Symbol getS(){
+        return this.s;
+    }
+:};
+
+terminal
+             If,
+             Else,
+             Fi,
+             Do,
+             Until,
+             While,
+             Read,
+             Write,
+             FLOAT,
+             INT,
+             BOOL,
+             NOT,
+             AND,
+             OR,
+             Add,
+             Substract,
+             Multiply,
+             Divide,
+             Pow,
+             LT,
+             LTEquals,
+             GT,
+             GTEquals,
+             Equals,
+             NEquals,
+             Assign,
+             SColon,
+             Comma,
+             OParen,
+             CParen,
+             OBrace,
+             CBrace,
+             Identifier,
+             Number,
+             CommentBlock,
+             SingleComment,
+             ERROR,
+             Jump;
+nonterminal block, lista_decalaracion, lista_sentencias, declaracion, tipo, lista_id, sentencia, seleccion,
+            iteracion, repeticion, sent_read, sent_write, bloque, asignacion, b_expresion, b_term, not_factor,
+            b_factor, relacion, expresion, termino, signoFactor, factor;

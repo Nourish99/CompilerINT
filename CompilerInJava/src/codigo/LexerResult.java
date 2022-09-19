@@ -1,4 +1,4 @@
-package code;
+package codigo;
 
 public class LexerResult {
     private String Lexem;

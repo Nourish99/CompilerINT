@@ -1,11 +1,12 @@
-package code.sintax;
-import static code.Tokens.*;
+package codigo;
+import static codigo.Tokens.*;
 
 
 %%
-%class LexerCup
-%type java_cup.runtime.Symbol
-
+%class Lexer
+%type Tokens
+%line
+%column
 
 Identifier=[a-zA-Z_][a-zA-Z_0-9]*
 Number=([1-9][0-9]*|0)(\.[0-9]*)*
@@ -14,12 +15,9 @@ CommentBlock=(\/\/~[\r\n]*|\/\*.*?\*\/)
 Space=[ \t\r\u000C]
 //String= ['](~['\r\n\\]|'\\'~[\r\n])*[']
 %{
-    private Symbol symbol(int type, Object value){
-      return new Symbol(type, yyline, yycolumn, value);
-    }
-    private Symbol symbol(int type){
-          return new Symbol(type, yyline, yycolumn);
-        }
+    public String lexeme;
+    public int line;
+    public int column;
 %}
 %%
 

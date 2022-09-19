@@ -1,14 +1,10 @@
-package code;
+package codigo;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Map;
@@ -19,7 +15,7 @@ public class Principal {
     private static boolean showFiles;
     private static String inputFile;
     public static void main(String[] args) {
-        String path = "C:\\Users\\amaur\\Documents\\Compiladores I\\PruebasProyecto\\Prueba2\\CompilerInJava\\src\\code\\Lexer.flex";
+        String path = "C:\\Users\\amaur\\Documents\\Compiladores I\\PruebasProyecto\\Prueba2\\CompilerInJava\\src\\codigo\\Lexer.flex";
         //GenerateConfigurationFiles(path);
 
         //MakeLexerAnalysis("" ,"");
