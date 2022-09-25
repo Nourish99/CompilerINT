@@ -1,5 +1,5 @@
 package codigo.sintax;
-import java_cup.runtime.Symbol;
+import static codigo.Tokens;import java_cup.runtime.*;
 
 
 %%
@@ -31,6 +31,7 @@ program {return new Symbol(sym.Program, yychar, yyline, yytext());}
 if {return new Symbol(sym.If, yychar, yyline, yytext());}
 else {return new Symbol(sym.Else, yychar, yyline, yytext());}
 fi {return new Symbol(sym.Fi, yychar, yyline, yytext());}
+then {return new Symbol(sym.Then, yychar, yyline, yytext());}
 do {return new Symbol(sym.Do, yychar, yyline, yytext());}
 until {return new Symbol(sym.Until, yychar, yyline, yytext());}
 while {return new Symbol(sym.While, yychar, yyline, yytext());}
@@ -42,6 +43,8 @@ bool {return new Symbol(sym.BOOL, yychar, yyline, yytext());}
 not {return new Symbol(sym.NOT, yychar, yyline, yytext());}
 and {return new Symbol(sym.AND, yychar, yyline, yytext());}
 or {return new Symbol(sym.OR, yychar, yyline, yytext());}
+true {return new Symbol(sym.True, yychar, yyline, yytext());}
+false {return new Symbol(sym.False, yychar, yyline, yytext());}
 {Space} {/*Ignore*/}
 "\n" {return new Symbol(sym.Jump, yychar, yyline, yytext());}
 "+" {return new Symbol(sym.Add, yychar, yyline, yytext());}
@@ -49,6 +52,7 @@ or {return new Symbol(sym.OR, yychar, yyline, yytext());}
 "*" {return new Symbol(sym.Multiply, yychar, yyline, yytext());}
 "/" {return new Symbol(sym.Divide, yychar, yyline, yytext());}
 "^" {return new Symbol(sym.Pow, yychar, yyline, yytext());}
+"%" {return new Symbol(sym.Modulus, yychar, yyline, yytext());}
 "<" {return new Symbol(sym.LT, yychar, yyline, yytext());}
 "<=" {return new Symbol(sym.LTEquals, yychar, yyline, yytext());}
 ">" {return new Symbol(sym.GT, yychar, yyline, yytext());}

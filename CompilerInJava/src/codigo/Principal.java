@@ -5,6 +5,9 @@ import com.google.gson.Gson;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.Map;
@@ -15,12 +18,20 @@ public class Principal {
     private static boolean showFiles;
     private static String inputFile;
     public static void main(String[] args) {
-        String path = "C:\\Users\\amaur\\Documents\\Compiladores I\\PruebasProyecto\\Prueba2\\CompilerInJava\\src\\codigo\\Lexer.flex";
-        //GenerateConfigurationFiles(path);
+        //C:\Users\amaur\source\repos\CompilerINT\CompilerInJava\src\codigo
+        String path = "C:\\Users\\amaur\\source\\repos\\CompilerINT\\CompilerInJava\\src\\codigo\\Lexer.flex";
+        String path2 = "C:\\Users\\amaur\\source\\repos\\CompilerINT\\CompilerInJava\\src\\codigo\\sintax\\LexerCup.flex";
+        String[] rutass = {"-parser", "Sintax", "C:\\Users\\amaur\\source\\repos\\CompilerINT\\CompilerInJava\\src\\codigo\\sintax\\Sintax.cup"};
+        try{
+            GenerateConfigurationFiles(path, path2, rutass);
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
 
         //MakeLexerAnalysis("" ,"");
-        args = new String[] { "C:\\Users\\amaur\\Documents\\tn.txt",  "-la", "/OD","C:\\Users\\amaur\\Documents\\wuuu" };
-        EvaluateArgs(args);
+        //args = new String[] { "C:\\Users\\amaur\\Documents\\tn.txt",  "-la", "/OD","C:\\Users\\amaur\\Documents\\wuuu" };
+        //EvaluateArgs(args);
     }
 
     public static void EvaluateArgs(String[] args){
@@ -74,9 +85,30 @@ public class Principal {
         }
     }
 
-    public static void GenerateConfigurationFiles(String path){
-        File file = new File(path);
+    public static void GenerateConfigurationFiles(String path, String path2, String[] rutass) throws Exception {
+        File file ;
+        java_cup.Main.main(rutass);
+        file = new File(path);
         JFlex.Main.generate(file);
+        file = new File(path2);
+        JFlex.Main.generate(file);
+        //C:\Users\amaur\source\repos\CompilerINT\CompilerInJava\src\codigo
+
+        Path rutaSym = Paths.get("C:/Users/amaur/source/repos/CompilerINT/CompilerInJava/src/codigo/sintax/sym.java");
+        if(Files.exists(rutaSym)){
+            Files.delete(rutaSym);
+        }
+        Files.move(
+                Paths.get("C:/Users/amaur/source/repos/CompilerINT/CompilerInJava/sym.java"),
+                Paths.get("C:/Users/amaur/source/repos/CompilerINT/CompilerInJava/src/codigo/sintax/sym.java"));
+
+        Path rutaSin = Paths.get("C:/Users/amaur/source/repos/CompilerINT/CompilerInJava/src/codigo/sintax/Sintax.java");
+        if(Files.exists(rutaSin)){
+            Files.delete(rutaSin);
+        }
+        Files.move(
+                Paths.get("C:/Users/amaur/source/repos/CompilerINT/CompilerInJava/Sintax.java"),
+                Paths.get("C:/Users/amaur/source/repos/CompilerINT/CompilerInJava/src/codigo/sintax/Sintax.java"));
     }
 
     public static void MakeLexerAnalysis(String path, String text ) {

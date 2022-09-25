@@ -1,58 +1,90 @@
 package codigo.sintax;
-import java_cup.runtime.Symbol;
-
+import java_cup.runtime.*;
 parser code
 {:
     private Symbol s;
 
-    public void syntax_error (Symbol s){
-        this.s = se;
+    public void syntax_error(Symbol s){
+    //System.out.println("compiler has detected a syntax error at line " + s.left + " column " + s.right);
+        this.s = s;
     }
 
     public Symbol getS(){
         return this.s;
-    }
+}
 :};
 
-terminal
-             If,
-             Else,
-             Fi,
-             Do,
-             Until,
-             While,
-             Read,
-             Write,
-             FLOAT,
-             INT,
-             BOOL,
-             NOT,
-             AND,
-             OR,
-             Add,
-             Substract,
-             Multiply,
-             Divide,
-             Pow,
-             LT,
-             LTEquals,
-             GT,
-             GTEquals,
-             Equals,
-             NEquals,
-             Assign,
-             SColon,
-             Comma,
-             OParen,
-             CParen,
-             OBrace,
-             CBrace,
-             Identifier,
-             Number,
-             CommentBlock,
-             SingleComment,
-             ERROR,
-             Jump;
-nonterminal block, lista_decalaracion, lista_sentencias, declaracion, tipo, lista_id, sentencia, seleccion,
+terminal If,Else,Fi,Do,Until,While,Read,Write,FLOAT,INT,BOOL,NOT,AND,OR,Add,Substract,Multiply,
+Divide,Pow,LT,LTEquals,GT,GTEquals,Equals,NEquals,Assign,SColon,Comma,OParen,CParen,OBrace,
+CBrace,Identifier,Number,CommentBlock,SingleComment,ERROR,Jump,True,False,Program,CommentBlock,SingleComment,Then,Modulus;
+
+non terminal Block, lista_declaracion, lista_sentencias, declaracion, tipo, lista_id, sentencia, seleccion,
             iteracion, repeticion, sent_read, sent_write, bloque, asignacion, b_expresion, b_term, not_factor,
-            b_factor, relacion, expresion, termino, signoFactor, factor;
+            b_factor, relacion, expresion, termino, signoFactor, factor,else_expresion,true_false_expre,Comment,
+            true_false_expre_2,RelOperator,sumaOp,multOp,lista_id_2,c_expresion,c_term,not_list,relacion_2,
+            expresion_2,termino_2;
+
+start with Block;
+ Block ::= Program OBrace lista_declaracion lista_sentencias CBrace;
+ lista_declaracion ::= declaracion | ;
+
+ declaracion ::= tipo lista_id SColon Comment lista_declaracion;
+
+ tipo ::= INT | FLOAT | BOOL;
+ lista_id ::= Identifier lista_id_2 ;
+ lista_id_2 ::= | Comma Identifier lista_id_2;
+
+ lista_sentencias ::= sentencia | ;
+ sentencia ::=
+     seleccion lista_sentencias |
+     iteracion lista_sentencias |
+     repeticion lista_sentencias |
+     sent_read lista_sentencias |
+     sent_write lista_sentencias |
+     bloque lista_sentencias |
+     asignacion lista_sentencias |
+     Comment lista_sentencias;
+
+
+  else_expresion ::= | Else bloque;
+  true_false_expre ::= True | False;
+  true_false_expre_2 ::= | true_false_expre true_false_expre_2 | true_false_expre true_false_expre_2;
+  RelOperator::= Equals | NEquals | GTEquals | LTEquals | Pow | NOT | GT | LT;
+  sumaOp::= Add | Substract;
+  multOp::= Multiply | Divide | Modulus;
+
+
+
+ seleccion ::= If OParen b_expresion CParen Then bloque else_expresion Fi;
+ iteracion ::= While OParen b_expresion CParen bloque;
+ repeticion ::= Do bloque Until OParen b_expresion CParen SColon;
+ sent_read ::= Read Identifier SColon;
+ sent_write ::= Write b_expresion SColon;
+ bloque ::= OBrace lista_sentencias CBrace;
+ asignacion ::= Identifier Assign b_expresion SColon;
+
+ b_expresion ::= b_term c_expresion;
+ c_expresion ::= | OR b_expresion;
+
+ b_term ::= not_factor c_term;
+ c_term::= | AND b_term ;
+
+ not_factor ::= b_factor not_list;
+ not_list ::= | NOT not_factor;
+
+ b_factor ::= true_false_expre_2 | relacion;
+
+ relacion ::= expresion relacion_2;
+ relacion_2 ::= | RelOperator relacion relacion_2;
+
+ expresion ::= termino expresion_2;
+ expresion_2 ::= | sumaOp termino expresion_2;
+
+ termino ::= signoFactor termino_2;
+ termino_2 ::= | multOp signoFactor termino_2 ;
+
+ signoFactor ::= sumaOp factor | factor;
+
+ factor ::= OParen b_expresion CParen | Number | Identifier;
+
+ Comment::= CommentBlock | SingleComment;

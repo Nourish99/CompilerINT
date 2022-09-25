@@ -40,5 +40,7 @@ public enum Tokens {
     CommentBlock,
     SingleComment,
     ERROR,
-    Jump
+    Jump,
+    True,
+    False
 }
