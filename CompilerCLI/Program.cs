@@ -6,6 +6,12 @@ using CompilerCLI.Helpers;
 using CompilerCLI.ANTLR4Files;
 using System.IO;
 using System.Diagnostics;
+using Antlr.Runtime.Tree;
+using Antlr4.Runtime.Tree;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Collections;
+using System.Linq;
 
 namespace CompilerCLI
 {
@@ -72,6 +78,7 @@ namespace CompilerCLI
                         //realizar analisis lexico
                         var pars = ph.GetParserAnalisis(inputfile, outputDir);
                         ph.PrintParserAnalysis(pars);
+                        Console.WriteLine(printSyntaxTree(pars.parss, pars.treeCST));
                         break;
                 }
             }
@@ -82,7 +89,34 @@ namespace CompilerCLI
 
         }
 
-        
+        public static string printSyntaxTree(List<string> rules, IParseTree root)
+        {
+            StringBuilder buf = new StringBuilder();
+            recursive(root, buf, 0, rules);
+            return buf.ToString();
+        }
+
+        private static void recursive(IParseTree aRoot, StringBuilder buf, int offset, List<string> ruleNames)
+        {
+            for (int i = 0; i < offset; i++)
+            {
+                buf.Append("\t");
+            }
+            buf.Append(Trees.GetNodeText(aRoot, ruleNames)).Append("\n");
+            ParserRuleContext prc = (ParserRuleContext)aRoot;
+
+            if (prc.children != null)
+            {
+                foreach (IParseTree child in prc.children)
+                {
+                    recursive(child, buf, offset + 1, ruleNames);
+                }
+            }
+            /*if (aRoot.GetType() == typeof(ParserRuleContext)) {
+                ParserRuleContext prc = (ParserRuleContext)aRoot;
+               
+            }*/
+        }
 
 
     }

@@ -1,8 +1,11 @@
-﻿using Antlr4.Runtime;
+﻿using Antlr.Runtime.Tree;
+using Antlr4.Runtime;
+using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Tree;
 using CompilerCLI.ANTLR4Files;
 using CompilerCLI.ANTLRParser.antlrOutput;
 using CompilerCLI.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -127,6 +130,7 @@ namespace CompilerCLI.Helpers
                 parserResultModel.treeCST = parseTree;
 
                 //Console.WriteLine(Trees.ToStringTree(parseTree));
+                parserResultModel.parss = speakParser.RuleNames.ToList<string>();
                 return parserResultModel;
             }
             catch (Exception ex)
@@ -163,7 +167,7 @@ namespace CompilerCLI.Helpers
                 {
                     parserResultModel.IsCorrect = false;
                 }
-
+                parserResultModel.parss = speakParser.RuleNames.ToList<string>();
                 //Console.WriteLine(Trees.ToStringTree(parseTree));
                 return parserResultModel;
             }
@@ -173,6 +177,22 @@ namespace CompilerCLI.Helpers
                 return null;
             }
         }
+
+        /*public void PrintTree(int level, IParseTree parent)
+        {
+            for (int i = 1; i < level; i++)
+            {
+                Console.Write("\t");
+            }
+            Console.WriteLine(parent.ToString());
+            for (Nodo child : hijos)
+            {
+                if (child != null)
+                {
+                    child.print(level + 1);
+                }
+            }
+    } */
 
         public void PrintParserAnalysis(ParserResultModel lrm)
         {

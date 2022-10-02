@@ -1,4 +1,5 @@
 ﻿using Antlr.Runtime.Tree;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using CompilerCLI.ANTLRParser.antlrOutput;
 using System;
@@ -15,5 +16,6 @@ namespace CompilerCLI.Models
         public CommonTree tree { get; set; }
         public IParseTree treeCST { get; set; }
         public bool IsCorrect { get; set; }
+        public List<string> parss { get; set; }
     }
 }
