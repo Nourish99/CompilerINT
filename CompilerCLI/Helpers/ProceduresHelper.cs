@@ -5,6 +5,7 @@ using Antlr4.Runtime.Tree;
 using CompilerCLI.ANTLR4Files;
 using CompilerCLI.ANTLRParser.antlrOutput;
 using CompilerCLI.Models;
+using CompilerCLI.ParserTools;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -125,9 +126,20 @@ namespace CompilerCLI.Helpers
                 ParseTreeWalker w = new ParseTreeWalker();
                 tinyBaseListener S = new tinyBaseListener();
                 w.Walk(S, parseTree);
-
                 parserResultModel.Errors = errorListener.GetSyntaxErrors();
                 parserResultModel.treeCST = parseTree;
+
+
+                try
+                {
+                    ASTVisitor stV = new ASTVisitor();
+                    stV.Visit(parseTree);
+                    var a = stV.SemanticErrors;
+                    stV.parent.PrintPretty(" ",false);
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e);
+                }
 
                 //Console.WriteLine(Trees.ToStringTree(parseTree));
                 parserResultModel.parss = speakParser.RuleNames.ToList<string>();

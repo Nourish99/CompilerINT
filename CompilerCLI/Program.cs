@@ -92,26 +92,39 @@ namespace CompilerCLI
         public static string printSyntaxTree(List<string> rules, IParseTree root)
         {
             StringBuilder buf = new StringBuilder();
-            recursive(root, buf, 0, rules);
-            return buf.ToString();
+            try
+            {
+                recursive(root, buf, 0, rules);
+                return buf.ToString();
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return "";
+            }
         }
 
         private static void recursive(IParseTree aRoot, StringBuilder buf, int offset, List<string> ruleNames)
         {
             for (int i = 0; i < offset; i++)
             {
-                buf.Append("\t");
+                buf.Append(" ");
             }
             buf.Append(Trees.GetNodeText(aRoot, ruleNames)).Append("\n");
-            ParserRuleContext prc = (ParserRuleContext)aRoot;
-
-            if (prc.children != null)
+            if (typeof(ParserRuleContext).IsInstanceOfType(aRoot))
             {
-                foreach (IParseTree child in prc.children)
+                ParserRuleContext prc = (ParserRuleContext)aRoot;
+                if (prc.children != null)
                 {
-                    recursive(child, buf, offset + 1, ruleNames);
+                    foreach (IParseTree child in prc.children)
+                    {
+                        recursive(child, buf, offset + 1, ruleNames);
+                    }
                 }
             }
+
+            
             /*if (aRoot.GetType() == typeof(ParserRuleContext)) {
                 ParserRuleContext prc = (ParserRuleContext)aRoot;
                
