@@ -142,7 +142,7 @@ namespace CompilerCLI.Helpers
                         Variables = stV.Variables
                     };
                     //Metodo que imprime el arbol en consola, solo abstracto SIN tipos, este va en la pestaña de sintactico, el ultimo parametro es para imprimirlo tipado o no
-                    stV.parent.PrintPretty(" ",false, true);
+                    stV.parent.PrintPretty(" ",false, false);
                 }
                 catch (Exception e) {
                     Console.WriteLine(e);
@@ -186,6 +186,26 @@ namespace CompilerCLI.Helpers
                 {
                     parserResultModel.IsCorrect = false;
                 }
+
+                try
+                {
+                    ASTVisitor stV = new ASTVisitor();
+                    stV.Visit(parseTree);
+                    var a = stV.SemanticErrors;
+                    parserResultModel.semanticResult = new SemanticResultModel()
+                    {
+                        ASTTree = stV.parent,
+                        SemanticErrors = a,
+                        Variables = stV.Variables
+                    };
+                    //Metodo que imprime el arbol en consola, solo abstracto SIN tipos, este va en la pestaña de sintactico, el ultimo parametro es para imprimirlo tipado o no
+                    stV.parent.PrintPretty(" ", false, false);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
                 parserResultModel.parss = speakParser.RuleNames.ToList<string>();
                 //Console.WriteLine(Trees.ToStringTree(parseTree));
                 return parserResultModel;

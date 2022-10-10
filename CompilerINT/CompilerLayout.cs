@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using CompilerCLI.Helpers;
 using CompilerCLI.Models;
 using Antlr4.Runtime.Tree;
+using CompilerCLI.ParserTools;
 
 namespace CompilerINT
 {
@@ -27,6 +28,7 @@ namespace CompilerINT
             _IsAFileOpen = false;
             InitializeComponent();
             SetupLexTable(lexicDataGridView);
+            SetupSymbolsTable(symbolsDataGridView);
         }
 
         private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -149,6 +151,7 @@ namespace CompilerINT
             numLines.SelectionAlignment = HorizontalAlignment.Center;
             numLines.Text = "";
             numLines.Width = getWidth();
+            numLines.ScrollBars = RichTextBoxScrollBars.None;
             for (int i = First_Line; i <= Last_Line + 1; i++)
             {
                 numLines.Text += i + 1 + "\n";
@@ -270,20 +273,85 @@ namespace CompilerINT
                 if (prm.Errors!=null)
                 {
                     richTextBox1.Text = "";
-                    richTextBox1.Text += "Mensaje\tLinea\tColumna";
+                    richTextBox1.Text += "Mensaje   Linea   Columna";
                     foreach (var item in prm.Errors)
                     {
                         //"Mensaje\tLinea\tColumna"i.getMessage() + "\t" + i.getLine() + "\t" +  i.getCharPositionInLine()
                         richTextBox1.Text += $"\n{item.getMessage()}\t{item.getLine()}\t{item.getCharPositionInLine()}";
                     }
                 }
+
                 richTextBoxSintatic.Text = "";
-                richTextBoxSintatic.Text = Trees.ToStringTree(prm.treeCST);
+                richTextBoxSintatic.ForeColor = Color.Blue;
+                PrintTree(" ", false, false, richTextBoxSintatic, prm.semanticResult.ASTTree);
+
+                richTextBoxSemanthic.Text = "";
+                richTextBoxSemanthic.ForeColor = Color.Green;
+                if (prm.semanticResult.SemanticErrors.Count == 0)
+                    PrintTree(" ", false, true, richTextBoxSemanthic, prm.semanticResult.ASTTree);
+                else
+                {
+                    foreach (string msg in prm.semanticResult.SemanticErrors)
+                    {
+                        StringBuilder sb = new StringBuilder(msg);
+                        sb.Replace("Linea:", "      ");
+                        sb.Replace("Columna:", "      ");
+                        sb.Replace("Col:", "      ");
+                        sb.Replace(".", " ");
+                        sb.Replace(",", " ");
+                        richTextBox1.Text += $"\n{sb.ToString()}";
+                    }
+                }
+
+                PopulateSymbolsTable(prm.semanticResult.Variables);
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al realizar el analisis lexico!");
+            }
+        }
+
+        public void PrintTree(string indent, bool last, bool typed, RichTextBox textForm, ASTNode finalTree)
+        {
+            finalTree.tree = "";
+            if (finalTree.Children == null)
+            {
+                return;
+            }
+
+            finalTree.tree += indent;
+            if (last)
+            {
+                finalTree.tree += "\\_";
+                indent += "   ";
+            }
+            else
+            {
+                finalTree.tree += "!_";
+                indent += "|   ";
+            }
+            if (finalTree.Tipo != null && typed)
+            {
+                finalTree.tree += string.Format("{0}   -->   ( {1} ){2}", finalTree.Label, finalTree.Tipo, Environment.NewLine);
+            }
+            else
+            {
+                finalTree.tree += string.Format("{0}{1}", finalTree.Label, Environment.NewLine);
+            }
+
+            textForm.Text += finalTree.tree;
+
+            if (finalTree.Children != null)
+            {
+                for (int i = 0; i < finalTree.Children.Count; i++)
+                {
+                    if (finalTree.Children[i] != null)
+                    {
+                        PrintTree(indent, i == finalTree.Children.Count - 1, typed, textForm, finalTree.Children[i]);
+                    }
+                }
+
             }
         }
 
@@ -316,6 +384,31 @@ namespace CompilerINT
             dtgv.Dock = DockStyle.Fill;
         }
 
+        private void SetupSymbolsTable(DataGridView dtgv)
+        {
+            dtgv.ColumnCount = 3;
+            dtgv.ColumnHeadersDefaultCellStyle.BackColor = Color.Navy;
+            dtgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dtgv.ColumnHeadersDefaultCellStyle.Font = new Font(symbolsDataGridView.Font, FontStyle.Bold);
+
+            dtgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dtgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dtgv.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dtgv.GridColor = Color.Black;
+            dtgv.RowHeadersVisible = false;
+
+            dtgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            dtgv.Columns[0].Name = "N°";
+            dtgv.Columns[1].Name = "Symbol";
+            dtgv.Columns[2].Name = "Type";
+
+            dtgv.SelectionMode =  DataGridViewSelectionMode.FullRowSelect;
+            dtgv.MultiSelect = false;
+            dtgv.Dock = DockStyle.Fill;
+            dtgv.DefaultCellStyle.ForeColor = Color.Black;
+        }
+
         private void PopulateLexTable(List<TokenItem> ls)
         {
             lexicDataGridView.Rows.Clear();
@@ -323,6 +416,16 @@ namespace CompilerINT
             foreach (TokenItem item in ls)
             {
                 lexicDataGridView.Rows.Add(new string[]{ i++.ToString(), item.TokenName, item.TokenDesc, item.TokenLine.ToString(),item.TokenCol.ToString()});
+            }
+        }
+
+        private void PopulateSymbolsTable(Dictionary<string, SymTableItem> symbols)
+        {
+            symbolsDataGridView.Rows.Clear();
+            int i = 1;
+            foreach (var symbol in symbols.Values)
+            {
+                symbolsDataGridView.Rows.Add(new string[] { i++.ToString(), symbol.Identifier, symbol.Type });
             }
         }
         private void PopulateLexErrorsTable(List<TokenItem> ls)
@@ -375,6 +478,11 @@ namespace CompilerINT
         }
 
         private void richTextBoxSintatic_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numLines_TextChanged(object sender, EventArgs e)
         {
 
         }
