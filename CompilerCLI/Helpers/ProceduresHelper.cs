@@ -135,6 +135,13 @@ namespace CompilerCLI.Helpers
                     ASTVisitor stV = new ASTVisitor();
                     stV.Visit(parseTree);
                     var a = stV.SemanticErrors;
+                    parserResultModel.semanticResult = new SemanticResultModel()
+                    {
+                        ASTTree = stV.parent,
+                        SemanticErrors = a,
+                        Variables = stV.Variables
+                    };
+                    //Metodo que imprime el arbol en consola, solo abstracto SIN tipos, este va en la pestaña de sintactico
                     stV.parent.PrintPretty(" ",false);
                 }
                 catch (Exception e) {

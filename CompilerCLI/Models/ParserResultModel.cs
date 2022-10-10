@@ -2,6 +2,7 @@
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using CompilerCLI.ANTLRParser.antlrOutput;
+using CompilerCLI.ParserTools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace CompilerCLI.Models
         public IParseTree treeCST { get; set; }
         public bool IsCorrect { get; set; }
         public List<string> parss { get; set; }
+        public SemanticResultModel semanticResult { get; set; }
     }
 }
