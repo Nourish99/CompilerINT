@@ -4,6 +4,8 @@ using System.Linq;
 using Antlr4.Runtime.Tree;
 using Antlr4.Runtime.Misc;
 using CompilerCLI.Models;
+using System.Drawing;
+using System.Reflection;
 
 namespace CompilerCLI.ParserTools
 {
@@ -200,10 +202,24 @@ namespace CompilerCLI.ParserTools
                 }
                 else
                 {
+                    var valor = new object();
+                    var tipo = "";
+                    if (Variables.ContainsKey(condicion.ToString()))
+                    {
+                        valor = Variables[condicion.ToString()].Value;
+                        tipo = Variables[condicion.ToString()].Type;
+                    }
+                    else
+                    {
+                        valor = condicion.ToString();
+                        tipo = condicion.GetType().Name;
+                    }
                     whileNode.Children.Add(new ASTNode()
                     {
                         Id = node_id++,
-                        Label = condicion.ToString()
+                        Label = condicion.ToString(),
+                        Valor = valor.ToString(),
+                        Tipo = tipo
                     });
                 }
                 var bloquee = Visit(context.bloque());
@@ -214,10 +230,25 @@ namespace CompilerCLI.ParserTools
                 }
                 else
                 {
+                    var valor = new object();
+                    var tipo = "";
+                    if (Variables.ContainsKey(bloquee.ToString()))
+                    {
+                        valor = Variables[bloquee.ToString()].Value;
+                        tipo = Variables[bloquee.ToString()].Type;
+                    }
+                    else
+                    {
+                        valor = bloquee.ToString();
+                        tipo = bloquee.GetType().Name;
+                    }
                     whileNode.Children.Add(new ASTNode()
                     {
                         Id = node_id++,
-                        Label = bloquee.ToString()
+                        Label = bloquee.ToString(),
+                        Valor = valor.ToString(),
+                        Tipo = tipo
+
                     });
                 }
             }
@@ -242,10 +273,24 @@ namespace CompilerCLI.ParserTools
             }
             else
             {
+                var valor = new object();
+                var tipo = "";
+                if (Variables.ContainsKey(bloquee.ToString()))
+                {
+                    valor = Variables[bloquee.ToString()].Value;
+                    tipo = Variables[bloquee.ToString()].Type;
+                }
+                else
+                {
+                    valor = bloquee.ToString();
+                    tipo = bloquee.GetType().Name;
+                }
                 doWhileNode.Children.Add(new ASTNode()
                 {
                     Id = node_id++,
-                    Label = bloquee.ToString()
+                    Label = bloquee.ToString(),
+                    Valor = valor.ToString(),
+                    Tipo = tipo
                 });
             }
 
@@ -255,10 +300,24 @@ namespace CompilerCLI.ParserTools
             }
             else
             {
+                var valor = new object();
+                var tipo = "";
+                if (Variables.ContainsKey(expre.ToString()))
+                {
+                    valor = Variables[expre.ToString()].Value;
+                    tipo = Variables[expre.ToString()].Type;
+                }
+                else
+                {
+                    valor = expre.ToString();
+                    tipo = expre.GetType().Name;
+                }
                 doWhileNode.Children.Add(new ASTNode()
                 {
                     Id = node_id++,
-                    Label = expre.ToString()
+                    Label = expre.ToString(),
+                    Valor = valor.ToString(),
+                    Tipo = tipo
                 });
 
             }
@@ -289,10 +348,25 @@ namespace CompilerCLI.ParserTools
             }
             else
             {
+                var valor = new object();
+                var tipo = "";
+                if (Variables.ContainsKey(b_exp.ToString()))
+                {
+                    valor = Variables[b_exp.ToString()].Value;
+                    tipo = Variables[b_exp.ToString()].Type;
+                }
+                else
+                {
+                    valor = b_exp.ToString();
+                    tipo = b_exp.GetType().Name;
+                }
                 writeNode.Children.Add(new ASTNode()
                 {
                     Id = node_id++,
-                    Label = b_exp.ToString()
+                    Label = b_exp.ToString(),
+                    Valor = valor.ToString(),
+                    Tipo = tipo
+
                 });
             }
             return writeNode;
@@ -457,7 +531,7 @@ namespace CompilerCLI.ParserTools
                 }
                 else
                 {
-                    r.Children.Add(new ASTNode() { Id = node_id++, Label = value.ToString() });
+                    r.Children.Add(new ASTNode() { Id = node_id++, Label = value.ToString(), Valor = value.ToString(), Tipo=value.GetType().Name });
 
                 }
                 return r;
@@ -508,22 +582,26 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(izq))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(izq))
                     {
                         if (Variables.ContainsKey((string)izq))
                         {
                             valor = Variables[(string)izq].Value;
+                            tipo = Variables[(string)izq].Type;
                         }
                     }
                     else
                     {
-                        valor = izq.GetType().Name;
+                        valor = izq;
+                        tipo = izq.GetType().Name;
                     }
                     lf = new ASTNode()
                     {
                         Id = node_id++,
                         Label = (string)izq,
                         Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
@@ -533,22 +611,27 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(dere))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(dere))
                     {
                         if (Variables.ContainsKey((string)dere))
                         {
                             valor = Variables[(string)dere].Value;
+                            tipo = Variables[(string)dere].Type;
+
                         }
                     }
                     else
                     {
                         valor = dere.GetType().Name;
+                        tipo = dere.GetType().Name;
                     }
                     rt = new ASTNode()
                     {
                         Id = node_id++,
                         Label = dere.ToString(),
-                        Valor = valor.ToString()
+                        Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
@@ -592,22 +675,31 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(izq))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(izq))
                     {
                         if (Variables.ContainsKey((string)izq))
                         {
                             valor = Variables[(string)izq].Value;
+                            tipo = Variables[(string)izq].Type;
+                        }
+                        else
+                        {
+                            SemanticErrors.Add($"Variable no declarada: {(string)izq}");
+
                         }
                     }
                     else
                     {
-                        valor = izq.GetType().Name;
+                        valor = izq.ToString();
+                        tipo = izq.GetType().Name;
                     }
                     lf = new ASTNode()
                     {
                         Id = node_id++,
                         Label = (string)izq,
                         Valor = valor.ToString(),
+                        Tipo = tipo,
                     };
                 }
                 else
@@ -617,11 +709,17 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(dere))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(dere))
                     {
                         if (Variables.ContainsKey((string)dere))
                         {
                             valor = Variables[(string)dere].Value;
+                            tipo = Variables[(string)dere].Type;
+                        }
+                        else
+                        {
+                            SemanticErrors.Add($"Variable no declarada: {(string)dere}");
                         }
                     }
                     else
@@ -676,16 +774,19 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(izq))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(izq))
                     {
                         if (Variables.ContainsKey((string)izq))
                         {
                             valor = Variables[(string)izq].Value;
+                            tipo = Variables[(string)izq].Type;
                         }
                     }
                     else
                     {
-                        valor = izq.GetType().Name;
+                        valor = izq.ToString();
+                        tipo = izq.GetType().Name;
                     }
                     lf = new ASTNode()
                     {
@@ -701,22 +802,26 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(dere))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(dere))
                     {
                         if (Variables.ContainsKey((string)dere))
                         {
                             valor = Variables[(string)dere].Value;
+                            tipo = Variables[(string)dere].Type;
                         }
                     }
                     else
                     {
-                        valor = dere.GetType().Name;
+                        valor = dere.ToString();
+                        tipo = dere.GetType().Name;
                     }
                     rt = new ASTNode()
                     {
                         Id = node_id++,
                         Label = dere.ToString(),
-                        Valor = valor.ToString()
+                        Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
@@ -828,47 +933,58 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(izq))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(izq))
                     {
                         if (Variables.ContainsKey((string)izq))
                         {
+                            tipo = Variables[(string)izq].Type;
                             valor = Variables[(string)izq].Value;
                         }
                     }
                     else
                     {
-                        valor = izq.GetType().Name;
+                        valor = izq.ToString();
+                        tipo = izq.GetType().Name;
                     }
                     lf = new ASTNode()
                     {
                         Id = node_id++,
-                        Label = (string)izq,
+                        Label = izq.ToString(),
                         Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
                 {
+                    //Aqui checar si trae una temporal
+
+                    //si la trae, actualizar la tabla de simbolos
                     lf = (ASTNode)izq;
                 }
                 if (!typeof(ASTNode).IsInstanceOfType(dere))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(dere))
                     {
                         if (Variables.ContainsKey((string)dere))
                         {
                             valor = Variables[(string)dere].Value;
+                            tipo = Variables[(string)dere].Type;
                         }
                     }
                     else
                     {
-                        valor = dere.GetType().Name;
+                        valor = dere.ToString();
+                        tipo = dere.GetType().Name;
                     }
                     rt = new ASTNode()
                     {
                         Id = node_id++,
                         Label = dere.ToString(),
-                        Valor = valor.ToString()
+                        Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
@@ -877,13 +993,69 @@ namespace CompilerCLI.ParserTools
                 }
 
                 //Al igual que expresion y todo para abajo
+                var terminal = "";
+                if (lf.TemporalVar != null && rt.TemporalVar != null) {
+                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                    if (t != null)
+                    {
+                        var lh = Variables[lf.TemporalVar];
+                        var rh = Variables[rt.TemporalVar];
 
+                        var val = lf.TemporalVar + " " + context.sumaOp().GetText() + " " + rt.TemporalVar;
+                        Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
+
+                    }
+                    else
+                    {
+                        SemanticErrors.Add("Incoherencia de tipos");
+                    }
+
+                }
+                else if (lf.TemporalVar != null)
+                {
+                    var s = new object();
+                    if (Variables.ContainsKey(lf.TemporalVar))
+                    {
+                        s = Variables[lf.TemporalVar];
+                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                        if (t!=null)
+                        {
+                            var val = lf.TemporalVar + " " + context.sumaOp().GetText() + " " + rt.Label;
+                            Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
+                        }
+                    }
+                }
+                else if(rt.TemporalVar != null)
+                {
+                    var s = new object();
+                    if (Variables.ContainsKey(rt.TemporalVar))
+                    {
+                        s = Variables[lf.TemporalVar];
+                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                        if (t != null)
+                        {
+                            var val = rt.TemporalVar + " " + context.sumaOp().GetText() + " " + lf.Label;
+                            Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
+                        }
+                    }
+                }
+                else
+                {
+                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                    if (t!=null)
+                    {
+                        terminal = rt.Label + " " + context.sumaOp().GetText() + " " + lf.Label;
+                        Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = terminal });
+                    }
+
+                }
 
                 //falta aqui
                 var r = new ASTNode()
                 {
                     Id = node_id++,
-                    Label = context.sumaOp().GetText()
+                    Label = context.sumaOp().GetText(),
+                    TemporalVar = "T" + tmp_vars_id
 
                 };
                 r.Children.Add(lf);
@@ -912,22 +1084,26 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(izq))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(izq))
                     {
                         if (Variables.ContainsKey((string)izq))
                         {
                             valor = Variables[(string)izq].Value;
+                            tipo = Variables[(string)izq].Type;
                         }
                     }
                     else
                     {
-                        valor = izq.GetType().Name;
+                        valor = izq.ToString();
+                        tipo = izq.GetType().Name;
                     }
                     lf = new ASTNode()
                     {
                         Id = node_id++,
-                        Label = (string)izq,
+                        Label = izq.ToString(),
                         Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
@@ -937,22 +1113,26 @@ namespace CompilerCLI.ParserTools
                 if (!typeof(ASTNode).IsInstanceOfType(dere))
                 {
                     var valor = new object();
+                    var tipo = "";
                     if (typeof(string).IsInstanceOfType(dere))
                     {
                         if (Variables.ContainsKey((string)dere))
                         {
                             valor = Variables[(string)dere].Value;
+                            tipo = Variables[(string)dere].Type;
                         }
                     }
                     else
                     {
-                        valor = dere.GetType().Name;
+                        valor = dere.ToString();
+                        tipo= dere.GetType().Name;
                     }
                     rt = new ASTNode()
                     {
                         Id = node_id++,
                         Label = dere.ToString(),
-                        Valor = valor.ToString()
+                        Valor = valor.ToString(),
+                        Tipo = tipo
                     };
                 }
                 else
@@ -961,13 +1141,78 @@ namespace CompilerCLI.ParserTools
                 }
 
                 //Al igual que expresion y todo para abajo
+                //Al igual que expresion y todo para abajo
+                var terminal = "";
+                var temporal_n = "";
+                if (lf.TemporalVar != null && rt.TemporalVar != null)
+                {
+                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                    if (t != null)
+                    {
+                        var lh = Variables[lf.TemporalVar];
+                        var rh = Variables[rt.TemporalVar];
+                        temporal_n = "T" + tmp_vars_id++;
+                        var val = lf.TemporalVar + " " + context.multOp().GetText() + " " + rt.TemporalVar;
+                        Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
 
+                    }
+                    else
+                    {
+                        SemanticErrors.Add("Incoherencia de tipos");
+                    }
+
+                }
+                else if (lf.TemporalVar != null)
+                {
+                    var s = new object();
+                    if (Variables.ContainsKey(lf.TemporalVar))
+                    {
+                        s = Variables[lf.TemporalVar];
+                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                        if (t != null)
+                        {
+                            temporal_n = "T" + tmp_vars_id++;
+
+                            var val = lf.TemporalVar + " " + context.multOp().GetText() + " " + rt.Label;
+                            Variables.Add("T" + temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
+                        }
+                    }
+                }
+                else if (rt.TemporalVar != null)
+                {
+                    var s = new object();
+                    if (Variables.ContainsKey(rt.TemporalVar))
+                    {
+                        s = Variables[lf.TemporalVar];
+                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                        if (t != null)
+                        {
+                            temporal_n = "T" + tmp_vars_id++;
+
+                            var val = rt.TemporalVar + " " + context.multOp().GetText() + " " + lf.Label;
+                            Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
+                        }
+                    }
+                }
+                else
+                {
+                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                    if (t != null)
+                    {
+                        terminal = rt.Label + " " + context.multOp().GetText() + " " + lf.Label;
+                        temporal_n = "T" + tmp_vars_id++;
+
+                        Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = terminal });
+                    }
+
+                }
 
                 //falta aqui
                 var r = new ASTNode()
                 {
                     Id = node_id++,
-                    Label = context.multOp().GetText()
+                    Label = context.multOp().GetText(),
+                    TemporalVar = temporal_n,
 
                 };
                 r.Children.Add(lf);
@@ -1000,8 +1245,78 @@ namespace CompilerCLI.ParserTools
                 }
                 else
                 {
+                    var r = new ASTNode()
+                    {
+                        Id = node_id++,
+                        Label = context.sumaOp().GetText(),
 
-                    return !(bool)nodo;
+                    };
+                    //r.Children.Add((ASTNode)nodo);
+                    if (typeof(string).IsInstanceOfType(nodo))
+                    {
+                        if (Variables.ContainsKey((string)nodo))
+                        {
+                            //Variables.Add(array[i].GetText(), new SymTableItem() { Identifier = array[i].GetText(), Type = tipo, Col = array[i].Symbol.Column, Line = array[i].Symbol.Column });
+                            var valAnt = new object();
+                            var valor = new object();
+                            if (typeof(double).IsInstanceOfType(Variables[(string)nodo].Value))
+                            {
+                                valAnt = (double)Variables[(string)nodo].Value;
+                                valor = context.sumaOp().GetText() == "-" ? (double)valAnt * (-1) : Variables[(string)nodo].Value;
+                                Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = Variables[(string)nodo].Type, Value =valor });
+
+
+                            }
+                            if (typeof(int).IsInstanceOfType(Variables[(string)nodo].Value))
+                            {
+                                valAnt = (int)Variables[(string)nodo].Value;
+                                valor = context.sumaOp().GetText() == "-" ? (int)valAnt * (-1) : Variables[(string)nodo].Value;
+                                Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = Variables[(string)nodo].Type, Value =valor });
+
+                            }
+
+                        }
+                        else
+                        {
+                            SemanticErrors.Add($"Variable no declarada: {(string)nodo}");
+                        }
+                    }
+                    else if (typeof(double).IsInstanceOfType(nodo))
+                    {
+                        //falta
+                        r.Children.Add(new ASTNode()
+                        {
+                            Id = node_id++,
+                            Label = nodo.ToString(),
+                            Valor = nodo.ToString(),
+                            Tipo = nodo.GetType().Name,
+                        }) ;
+
+                    }else if (typeof(int).IsInstanceOfType(nodo))
+                    {
+                        //falta
+                        r.Children.Add(new ASTNode()
+                        {
+                            Id = node_id++,
+                            Label = nodo.ToString(),
+                            Valor = nodo.ToString(),
+                            Tipo = nodo.GetType().Name,
+                        });
+                    }else if (typeof(bool).IsInstanceOfType(nodo))
+                    {
+                        SemanticErrors.Add($"Operacion no soportada en booleanos");
+
+                    }
+                    else
+                    {
+                        r.Children.Add(new ASTNode() { Id = node_id++, Label = nodo.ToString() });
+
+                    }
+
+
+                    return r;
+
+                    //return !(bool)nodo;
                 }
             }
             else
@@ -1043,6 +1358,50 @@ namespace CompilerCLI.ParserTools
 
             //return base.VisitFactor(context);
         }
+
+        private string GetOperationType(string l, string r, string sym)
+        {
+            if (l!=null && r !=null)
+            {
+                var t1 = l.ToLower();
+                var t2 = r.ToLower();
+                t1 = t1 == "int32" ? "int" : t1;
+                t2 = t2 == "int32" ? "int" : t2;
+
+                if (AreCompatible(t1, t2))
+                {
+                    if ((t1 == "int" && t2 == "float") || (t2 == "int" && t1 == "float"))
+                    {
+                        return "float";
+                    }
+
+                    if ((t1 == "int" && t2 == "string") || (t2 == "int" && t1 == "string") && sym == "+")
+                    {
+                        return "string";
+                    }
+                    if (t1 == t2)
+                    {
+                        return t1;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private bool AreCompatible(string o1, string o2)
+        {
+            if ((o1 == "bool" && o2 == "string") || (o2 == "bool" && o1 == "string"))
+                return false;
+            if ((o1 == "bool" && o2 == "float") || (o2 == "bool" && o1 == "float"))
+                return false;
+            return true;
+        }
+        /* 
+
+         private string CastObject(object)
+         {
+
+         }*/
         public override object VisitTerminal(ITerminalNode node)
         {
             /*aSTNodes.Push((ASTNode)node);*/

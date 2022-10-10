@@ -14,6 +14,7 @@ namespace CompilerCLI.ParserTools
         public string Label { get; set; }
         public string Valor { get; set; }
         public string Tipo { get; set; }
+        public string TemporalVar { get; set; }
 
         public ASTNode()
         {
@@ -38,11 +39,20 @@ namespace CompilerCLI.ParserTools
             }
             if (Tipo != null && typed)
             {
-                Console.WriteLine(Label + " --> ( "+Tipo+" )");
+                if(TemporalVar ==null)
+                    Console.WriteLine(Label + " --> ( "+Tipo+" )");
+                else
+                    Console.WriteLine(Label + " --> ( " + Tipo + " ) " + TemporalVar);
+
             }
             else
             {
                 Console.WriteLine(Label);
+                /*
+                if (TemporalVar == null)
+                else
+                    Console.WriteLine(Label + " --> ( " + TemporalVar + " ) ");
+*/
             }
 
 
