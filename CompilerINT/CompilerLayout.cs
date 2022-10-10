@@ -406,6 +406,7 @@ namespace CompilerINT
             dtgv.SelectionMode =  DataGridViewSelectionMode.FullRowSelect;
             dtgv.MultiSelect = false;
             dtgv.Dock = DockStyle.Fill;
+            dtgv.DefaultCellStyle.ForeColor = Color.Black;
         }
 
         private void PopulateLexTable(List<TokenItem> ls)
