@@ -51,9 +51,12 @@
             this.tabLexic = new System.Windows.Forms.TabPage();
             this.lexicDataGridView = new System.Windows.Forms.DataGridView();
             this.tabSintactic = new System.Windows.Forms.TabPage();
-            this.tabSemantic = new System.Windows.Forms.TabPage();
-            this.tabICode = new System.Windows.Forms.TabPage();
             this.richTextBoxSintatic = new System.Windows.Forms.RichTextBox();
+            this.tabSemantic = new System.Windows.Forms.TabPage();
+            this.richTextBoxSemanthic = new System.Windows.Forms.RichTextBox();
+            this.tabICode = new System.Windows.Forms.TabPage();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.symbolsDataGridView = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.menuStrip3.SuspendLayout();
@@ -61,6 +64,9 @@
             this.tabLexic.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.lexicDataGridView)).BeginInit();
             this.tabSintactic.SuspendLayout();
+            this.tabSemantic.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.symbolsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -148,9 +154,9 @@
             // 
             this.txtFileContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(32)))), ((int)(((byte)(33)))));
             this.txtFileContent.ForeColor = System.Drawing.SystemColors.Info;
-            this.txtFileContent.Location = new System.Drawing.Point(55, 113);
+            this.txtFileContent.Location = new System.Drawing.Point(56, 113);
             this.txtFileContent.Name = "txtFileContent";
-            this.txtFileContent.Size = new System.Drawing.Size(754, 520);
+            this.txtFileContent.Size = new System.Drawing.Size(753, 520);
             this.txtFileContent.TabIndex = 1;
             this.txtFileContent.Text = "";
             this.txtFileContent.SelectionChanged += new System.EventHandler(this.txtFileContent_SelectionChanged);
@@ -241,9 +247,10 @@
             this.numLines.ForeColor = System.Drawing.SystemColors.InactiveBorder;
             this.numLines.Location = new System.Drawing.Point(21, 113);
             this.numLines.Name = "numLines";
-            this.numLines.Size = new System.Drawing.Size(33, 520);
+            this.numLines.Size = new System.Drawing.Size(41, 520);
             this.numLines.TabIndex = 7;
             this.numLines.Text = "";
+            this.numLines.TextChanged += new System.EventHandler(this.numLines_TextChanged);
             this.numLines.MouseDown += new System.Windows.Forms.MouseEventHandler(this.numLines_MouseDown);
             // 
             // tabResults
@@ -252,7 +259,8 @@
             this.tabResults.Controls.Add(this.tabSintactic);
             this.tabResults.Controls.Add(this.tabSemantic);
             this.tabResults.Controls.Add(this.tabICode);
-            this.tabResults.Location = new System.Drawing.Point(831, 113);
+            this.tabResults.Controls.Add(this.tabPage1);
+            this.tabResults.Location = new System.Drawing.Point(832, 113);
             this.tabResults.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabResults.Name = "tabResults";
             this.tabResults.SelectedIndex = 0;
@@ -298,8 +306,18 @@
             this.tabSintactic.Text = "Sintactic";
             this.tabSintactic.Click += new System.EventHandler(this.tabSintactic_Click);
             // 
+            // richTextBoxSintatic
+            // 
+            this.richTextBoxSintatic.Location = new System.Drawing.Point(0, 0);
+            this.richTextBoxSintatic.Name = "richTextBoxSintatic";
+            this.richTextBoxSintatic.Size = new System.Drawing.Size(560, 488);
+            this.richTextBoxSintatic.TabIndex = 0;
+            this.richTextBoxSintatic.Text = "";
+            this.richTextBoxSintatic.TextChanged += new System.EventHandler(this.richTextBoxSintatic_TextChanged);
+            // 
             // tabSemantic
             // 
+            this.tabSemantic.Controls.Add(this.richTextBoxSemanthic);
             this.tabSemantic.Location = new System.Drawing.Point(4, 29);
             this.tabSemantic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabSemantic.Name = "tabSemantic";
@@ -308,6 +326,14 @@
             this.tabSemantic.TabIndex = 2;
             this.tabSemantic.Text = "Semantic";
             this.tabSemantic.UseVisualStyleBackColor = true;
+            // 
+            // richTextBoxSemanthic
+            // 
+            this.richTextBoxSemanthic.Location = new System.Drawing.Point(-1, 1);
+            this.richTextBoxSemanthic.Name = "richTextBoxSemanthic";
+            this.richTextBoxSemanthic.Size = new System.Drawing.Size(560, 484);
+            this.richTextBoxSemanthic.TabIndex = 1;
+            this.richTextBoxSemanthic.Text = "";
             // 
             // tabICode
             // 
@@ -320,14 +346,27 @@
             this.tabICode.Text = "Intermediate Code";
             this.tabICode.UseVisualStyleBackColor = true;
             // 
-            // richTextBoxSintatic
+            // tabPage1
             // 
-            this.richTextBoxSintatic.Location = new System.Drawing.Point(0, 0);
-            this.richTextBoxSintatic.Name = "richTextBoxSintatic";
-            this.richTextBoxSintatic.Size = new System.Drawing.Size(560, 488);
-            this.richTextBoxSintatic.TabIndex = 0;
-            this.richTextBoxSintatic.Text = "";
-            this.richTextBoxSintatic.TextChanged += new System.EventHandler(this.richTextBoxSintatic_TextChanged);
+            this.tabPage1.Controls.Add(this.symbolsDataGridView);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(560, 488);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "Symbol Table";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // symbolsDataGridView
+            // 
+            this.symbolsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.symbolsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.symbolsDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.symbolsDataGridView.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.symbolsDataGridView.Name = "symbolsDataGridView";
+            this.symbolsDataGridView.RowHeadersWidth = 51;
+            this.symbolsDataGridView.RowTemplate.Height = 25;
+            this.symbolsDataGridView.Size = new System.Drawing.Size(560, 488);
+            this.symbolsDataGridView.TabIndex = 1;
             // 
             // CompilerLayout
             // 
@@ -359,6 +398,9 @@
             this.tabLexic.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.lexicDataGridView)).EndInit();
             this.tabSintactic.ResumeLayout(false);
+            this.tabSemantic.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.symbolsDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -392,5 +434,8 @@
         private System.Windows.Forms.TabPage tabSemantic;
         private System.Windows.Forms.TabPage tabICode;
         private System.Windows.Forms.RichTextBox richTextBoxSintatic;
+        private System.Windows.Forms.RichTextBox richTextBoxSemanthic;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.DataGridView symbolsDataGridView;
     }
 }

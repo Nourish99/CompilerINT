@@ -23,7 +23,7 @@ namespace CompilerCLI
 #if DEBUG
             //args = new[] {"-h"};
             //args = new[] { "-v","busca|elemento", "C:\\Users\\amaur\\Documents\\Compiladores I\\Actividades\\Tarea4\\primero.txt", "C:\\Users\\amaur\\Documents\\Compiladores I\\Actividades\\Tarea4\\segundo.txt" };
-            args = new[] { "C:\\Users\\amaur\\Documents\\tn.txt",  "-pa", "/OD","C:\\Users\\amaur\\Documents\\Compiladores I\\PRUEBA" };
+            args = new[] { "D:\\Noveno\\Compiladores\\tn.txt",  "-pa", "/OD", "D:\\Noveno\\Compiladores\\Compiladores I\\PRUEBA" };
 
 #endif
 
