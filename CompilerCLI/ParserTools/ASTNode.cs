@@ -13,12 +13,13 @@ namespace CompilerCLI.ParserTools
         public int Id { get; set; }
         public string Label { get; set; }
         public string Valor { get; set; }
+        public string Tipo { get; set; }
 
         public ASTNode()
         {
             Children = new List<ASTNode>();
         }
-        public void PrintPretty(string indent, bool last)
+        public void PrintPretty(string indent, bool last, bool typed)
         {
             if (Children == null)
             {
@@ -35,19 +36,23 @@ namespace CompilerCLI.ParserTools
                 Console.Write("|_");
                 indent += "| ";
             }
-            Console.WriteLine(Label);
+            if (Tipo != null && typed)
+            {
+                Console.WriteLine(Label + " --> ( "+Tipo+" )");
+            }
+            else
+            {
+                Console.WriteLine(Label);
+            }
+
 
             if (Children != null)
                 for (int i = 0; i < Children.Count; i++)
                 {
                     if (Children[i] != null)
                     {
-                        Children[i].PrintPretty(indent, i == Children.Count - 1);
-
-                        
-                    }
-                    
-
+                        Children[i].PrintPretty(indent, i == Children.Count - 1, typed);
+                    }                    
                 }
                     
         }

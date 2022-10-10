@@ -374,7 +374,7 @@ namespace CompilerCLI.ParserTools
 
             if (i < array.Length)
             {
-                root = new ASTNode() { Id = node_id++, Label = array[i].GetText(), Valor = tipo };
+                root = new ASTNode() { Id = node_id++, Label = array[i].GetText(), Tipo = !isType(array[i].GetText()) ? tipo : null };
                 if (!isType(array[i].GetText()))
                 {
                     if (Variables.ContainsKey(array[i].GetText()))
@@ -383,7 +383,10 @@ namespace CompilerCLI.ParserTools
                     }
                     else
                     {
-                        Variables.Add(array[i].GetText(), new SymTableItem() { Identifier = array[i].GetText(), Type = tipo, Col = array[i].Symbol.Column, Line = array[i].Symbol.Column });
+                        if (!isType(array[i].GetText()))
+                        {
+                            Variables.Add(array[i].GetText(), new SymTableItem() { Identifier = array[i].GetText(), Type = tipo, Col = array[i].Symbol.Column, Line = array[i].Symbol.Column });
+                        }
 
                     }
 
@@ -447,7 +450,7 @@ namespace CompilerCLI.ParserTools
             {
                 Variables[varName].Value = value;
                 var r = new ASTNode() { Id = node_id++, Label = sign };
-                r.Children.Add(new ASTNode() { Id = node_id++, Label = varName });
+                r.Children.Add(new ASTNode() { Id = node_id++, Label = varName, Tipo= Variables[varName].Type });
                 if (typeof(ASTNode).IsInstanceOfType(value))
                 {
                     r.Children.Add((ASTNode)value);
