@@ -142,7 +142,7 @@ namespace CompilerCLI.Helpers
                         Variables = stV.Variables
                     };
                     //Metodo que imprime el arbol en consola, solo abstracto SIN tipos, este va en la pestaña de sintactico, el ultimo parametro es para imprimirlo tipado o no
-                    stV.parent.PrintPretty(" ",false, false);
+                    stV.parent.PrintPretty(" ",false, true);
                 }
                 catch (Exception e) {
                     Console.WriteLine(e);

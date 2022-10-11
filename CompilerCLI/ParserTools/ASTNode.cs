@@ -50,11 +50,11 @@ namespace CompilerCLI.ParserTools
             }
             else
             {
-               Console.WriteLine(Label);
+               Console.WriteLine(Label+"-->"+ TemporalVar);
                tree += string.Format("{0}{1}", Label, Environment.NewLine);
             }
-
-            Console.Write(tree);
+            
+            //Console.Write(tree);
 
             if (Children != null)
             {

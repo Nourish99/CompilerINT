@@ -994,15 +994,16 @@ namespace CompilerCLI.ParserTools
 
                 //Al igual que expresion y todo para abajo
                 var terminal = "";
+                var temporal_n = "";
                 if (lf.TemporalVar != null && rt.TemporalVar != null) {
                     var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
                     if (t != null)
                     {
                         var lh = Variables[lf.TemporalVar];
                         var rh = Variables[rt.TemporalVar];
-
-                        var val = lf.TemporalVar + " " + context.sumaOp().GetText() + " " + rt.TemporalVar;
-                        Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
+                        temporal_n = "T" + tmp_vars_id++;
+                        var val = lh.Identifier + " " + context.sumaOp().GetText() + " " + rh.Identifier;
+                        Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
 
                     }
                     else
@@ -1023,19 +1024,28 @@ namespace CompilerCLI.ParserTools
                             var val = lf.TemporalVar + " " + context.sumaOp().GetText() + " " + rt.Label;
                             Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
                         }
+                        else
+                        {
+                            SemanticErrors.Add("Incoherencia de tipos");
+                        }
                     }
                 }
                 else if(rt.TemporalVar != null)
                 {
-                    var s = new object();
                     if (Variables.ContainsKey(rt.TemporalVar))
                     {
-                        s = Variables[lf.TemporalVar];
-                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                        var s = Variables[rt.TemporalVar];
+                        var t = GetOperationType(lf.Tipo, s.Type, context.sumaOp().GetText());
                         if (t != null)
                         {
-                            var val = rt.TemporalVar + " " + context.sumaOp().GetText() + " " + lf.Label;
-                            Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
+                            temporal_n = "T" + tmp_vars_id++;
+
+                            var val = lf.TemporalVar + " " + context.sumaOp().GetText() + " " + rt.Label;
+                            Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
+                        }
+                        else
+                        {
+                            SemanticErrors.Add("Incoherencia de tipos");
                         }
                     }
                 }
@@ -1044,8 +1054,14 @@ namespace CompilerCLI.ParserTools
                     var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
                     if (t!=null)
                     {
-                        terminal = rt.Label + " " + context.sumaOp().GetText() + " " + lf.Label;
-                        Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = terminal });
+                        terminal = lf.Label  + " " + context.sumaOp().GetText() + " " + rt.Label;
+                        temporal_n = "T" + tmp_vars_id++;
+
+                        Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = terminal });
+                    }
+                    else
+                    {
+                        SemanticErrors.Add("Incoherencia de tipos");
                     }
 
                 }
@@ -1055,7 +1071,7 @@ namespace CompilerCLI.ParserTools
                 {
                     Id = node_id++,
                     Label = context.sumaOp().GetText(),
-                    TemporalVar = "T" + tmp_vars_id
+                    TemporalVar =temporal_n
 
                 };
                 r.Children.Add(lf);
@@ -1152,7 +1168,7 @@ namespace CompilerCLI.ParserTools
                         var lh = Variables[lf.TemporalVar];
                         var rh = Variables[rt.TemporalVar];
                         temporal_n = "T" + tmp_vars_id++;
-                        var val = lf.TemporalVar + " " + context.multOp().GetText() + " " + rt.TemporalVar;
+                        var val = lh.Identifier + " " + context.multOp().GetText() + " " + rh.Identifier;
                         Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
 
                     }
@@ -1164,33 +1180,40 @@ namespace CompilerCLI.ParserTools
                 }
                 else if (lf.TemporalVar != null)
                 {
-                    var s = new object();
+                    //var s = new object();
                     if (Variables.ContainsKey(lf.TemporalVar))
                     {
-                        s = Variables[lf.TemporalVar];
-                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                        var s = Variables[lf.TemporalVar];
+                        var t = GetOperationType(s.Type, rt.Tipo, context.multOp().GetText());
                         if (t != null)
                         {
                             temporal_n = "T" + tmp_vars_id++;
-
-                            var val = lf.TemporalVar + " " + context.multOp().GetText() + " " + rt.Label;
+                            var val = s.Identifier + " " + context.multOp().GetText() + " " + rt.Label;
                             Variables.Add("T" + temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
+                        }
+                        else
+                        {
+                            SemanticErrors.Add("Incoherencia de tipos");
                         }
                     }
                 }
                 else if (rt.TemporalVar != null)
                 {
-                    var s = new object();
+                    
                     if (Variables.ContainsKey(rt.TemporalVar))
                     {
-                        s = Variables[lf.TemporalVar];
-                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                        var s = Variables[rt.TemporalVar];
+                        var t = GetOperationType(s.Type, lf.Tipo, context.multOp().GetText());
                         if (t != null)
                         {
                             temporal_n = "T" + tmp_vars_id++;
 
-                            var val = rt.TemporalVar + " " + context.multOp().GetText() + " " + lf.Label;
+                            var val = lf.Label + " " + context.multOp().GetText() + " " + s.Identifier;
                             Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = val });
+                        }
+                        else
+                        {
+                            SemanticErrors.Add("Incoherencia de tipos");
                         }
                     }
                 }
@@ -1199,10 +1222,13 @@ namespace CompilerCLI.ParserTools
                     var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
                     if (t != null)
                     {
-                        terminal = rt.Label + " " + context.multOp().GetText() + " " + lf.Label;
+                        terminal = lf.Label + " " + context.multOp().GetText() + " " +   rt.Label;
                         temporal_n = "T" + tmp_vars_id++;
-
                         Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = terminal });
+                    }
+                    else
+                    {
+                        SemanticErrors.Add("Incoherencia de tipos");
                     }
 
                 }
