@@ -45,12 +45,12 @@ namespace CompilerCLI.ParserTools
             }
             if (Tipo != null && typed)
             {
-                Console.WriteLine(Label + " --> ( " + Tipo + " )");
+                Console.WriteLine(Label +"( "+TemporalVar+" )"+ " --> ( " + Tipo + " )");
                 tree += string.Format("{0} --> ( {1} ){2}", Label, Tipo, Environment.NewLine);
             }
             else
             {
-               Console.WriteLine(Label+"-->"+ TemporalVar);
+               Console.WriteLine(Label);
                tree += string.Format("{0}{1}", Label, Environment.NewLine);
             }
             

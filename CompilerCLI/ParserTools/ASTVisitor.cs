@@ -6,6 +6,7 @@ using Antlr4.Runtime.Misc;
 using CompilerCLI.Models;
 using System.Drawing;
 using System.Reflection;
+using Antlr.Runtime;
 
 namespace CompilerCLI.ParserTools
 {
@@ -924,6 +925,8 @@ namespace CompilerCLI.ParserTools
             {
                 var izq = Visit(context.termino()[0]);
                 var dere = Visit(context.termino()[1]);
+                var sim = (OperatorModel)Visit(context.sumaOp());
+                
 
                 //pendiente de implementar la operacion y asignarla a la tabla de simbolos
 
@@ -995,8 +998,10 @@ namespace CompilerCLI.ParserTools
                 //Al igual que expresion y todo para abajo
                 var terminal = "";
                 var temporal_n = "";
-                if (lf.TemporalVar != null && rt.TemporalVar != null) {
-                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                var t = "";
+                if (lf.TemporalVar != null && rt.TemporalVar != null)
+                {
+                    t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
                     if (t != null)
                     {
                         var lh = Variables[lf.TemporalVar];
@@ -1008,34 +1013,36 @@ namespace CompilerCLI.ParserTools
                     }
                     else
                     {
-                        SemanticErrors.Add("Incoherencia de tipos");
+                        SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
                     }
 
                 }
-                else if (lf.TemporalVar != null)
+                else if (lf.TemporalVar != null && rt.TemporalVar == null)
                 {
                     var s = new object();
                     if (Variables.ContainsKey(lf.TemporalVar))
                     {
                         s = Variables[lf.TemporalVar];
-                        var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
-                        if (t!=null)
+                        t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                        if (t != null)
                         {
                             var val = lf.TemporalVar + " " + context.sumaOp().GetText() + " " + rt.Label;
                             Variables.Add("T" + tmp_vars_id++, new SymTableItem() { Identifier = "T" + tmp_vars_id, Type = t, Value = val });
                         }
                         else
                         {
-                            SemanticErrors.Add("Incoherencia de tipos");
+                            SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
                         }
                     }
                 }
-                else if(rt.TemporalVar != null)
+                else if (rt.TemporalVar != null && lf.TemporalVar == null)
                 {
                     if (Variables.ContainsKey(rt.TemporalVar))
                     {
                         var s = Variables[rt.TemporalVar];
-                        var t = GetOperationType(lf.Tipo, s.Type, context.sumaOp().GetText());
+                        t = GetOperationType(lf.Tipo, s.Type, context.sumaOp().GetText());
                         if (t != null)
                         {
                             temporal_n = "T" + tmp_vars_id++;
@@ -1045,33 +1052,37 @@ namespace CompilerCLI.ParserTools
                         }
                         else
                         {
-                            SemanticErrors.Add("Incoherencia de tipos");
+                            SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
                         }
                     }
+                    
                 }
                 else
                 {
-                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
-                    if (t!=null)
+                    t = GetOperationType(lf.Tipo, rt.Tipo, context.sumaOp().GetText());
+                    if (t != null)
                     {
-                        terminal = lf.Label  + " " + context.sumaOp().GetText() + " " + rt.Label;
+                        terminal = lf.Label + " " + context.sumaOp().GetText() + " " + rt.Label;
                         temporal_n = "T" + tmp_vars_id++;
 
                         Variables.Add(temporal_n, new SymTableItem() { Identifier = temporal_n, Type = t, Value = terminal });
                     }
                     else
                     {
-                        SemanticErrors.Add("Incoherencia de tipos");
+                        SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
+
+
                     }
-
                 }
-
                 //falta aqui
                 var r = new ASTNode()
                 {
                     Id = node_id++,
                     Label = context.sumaOp().GetText(),
-                    TemporalVar =temporal_n
+                    TemporalVar =temporal_n,
+                    Tipo = t
 
                 };
                 r.Children.Add(lf);
@@ -1085,12 +1096,58 @@ namespace CompilerCLI.ParserTools
 
             //return base.VisitExpresion(context);
         }
+        public override object VisitSumaOp([NotNull] tinyParser.SumaOpContext context)
+        {
+            var opm = new OperatorModel();
+            if (context.Add().Length>0)
+            {
+                opm.Symbol = context.Add()[0].GetText();
+                opm.Column = context.Add()[0].Symbol.Column;
+                opm.Line = context.Add()[0].Symbol.Line;
+
+            }
+            if (context.Subtract().Length > 0)
+            {
+                opm.Symbol = context.Subtract()[0].GetText();
+                opm.Column = context.Subtract()[0].Symbol.Column;
+                opm.Line = context.Subtract()[0].Symbol.Line;
+            }
+            return opm;
+            //return base.VisitSumaOp(context);
+        }
+        public override object VisitMultOp([NotNull] tinyParser.MultOpContext context)
+        {
+            var opm = new OperatorModel();
+            //Multiply | Divide | Modulus
+            if (context.Multiply().Length > 0)
+            {
+                opm.Symbol = context.Multiply()[0].GetText();
+                opm.Column = context.Multiply()[0].Symbol.Column;
+                opm.Line = context.Multiply()[0].Symbol.Line;
+
+            }
+            if (context.Divide().Length > 0)
+            {
+                opm.Symbol = context.Divide()[0].GetText();
+                opm.Column = context.Divide()[0].Symbol.Column;
+                opm.Line = context.Divide()[0].Symbol.Line;
+            }
+            if (context.Modulus().Length > 0)
+            {
+                opm.Symbol = context.Modulus()[0].GetText();
+                opm.Column = context.Modulus()[0].Symbol.Column;
+                opm.Line = context.Modulus()[0].Symbol.Line;
+            }
+            //return base.VisitMultOp(context);
+            return opm;
+        }
         public override object VisitTermino([NotNull] tinyParser.TerminoContext context)
         {
             if (context.multOp() != null)
             {
                 var izq = Visit(context.signoFactor()[0]);
                 var dere = Visit(context.signoFactor()[1]);
+                var sim = (OperatorModel)Visit(context.multOp());
 
                 //pendiente de implementar la operacion y asignarla a la tabla de simbolos
 
@@ -1160,9 +1217,10 @@ namespace CompilerCLI.ParserTools
                 //Al igual que expresion y todo para abajo
                 var terminal = "";
                 var temporal_n = "";
+                var t = "";
                 if (lf.TemporalVar != null && rt.TemporalVar != null)
                 {
-                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                    t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
                     if (t != null)
                     {
                         var lh = Variables[lf.TemporalVar];
@@ -1174,17 +1232,17 @@ namespace CompilerCLI.ParserTools
                     }
                     else
                     {
-                        SemanticErrors.Add("Incoherencia de tipos");
+                        SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
                     }
 
                 }
-                else if (lf.TemporalVar != null)
+                else if (lf.TemporalVar != null && rt.TemporalVar==null)
                 {
                     //var s = new object();
                     if (Variables.ContainsKey(lf.TemporalVar))
                     {
                         var s = Variables[lf.TemporalVar];
-                        var t = GetOperationType(s.Type, rt.Tipo, context.multOp().GetText());
+                        t = GetOperationType(s.Type, rt.Tipo, context.multOp().GetText());
                         if (t != null)
                         {
                             temporal_n = "T" + tmp_vars_id++;
@@ -1193,17 +1251,18 @@ namespace CompilerCLI.ParserTools
                         }
                         else
                         {
-                            SemanticErrors.Add("Incoherencia de tipos");
+                            SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
                         }
                     }
                 }
-                else if (rt.TemporalVar != null)
+                else if (rt.TemporalVar != null && lf.TemporalVar ==null)
                 {
                     
                     if (Variables.ContainsKey(rt.TemporalVar))
                     {
                         var s = Variables[rt.TemporalVar];
-                        var t = GetOperationType(s.Type, lf.Tipo, context.multOp().GetText());
+                        t = GetOperationType(s.Type, lf.Tipo, context.multOp().GetText());
                         if (t != null)
                         {
                             temporal_n = "T" + tmp_vars_id++;
@@ -1213,13 +1272,14 @@ namespace CompilerCLI.ParserTools
                         }
                         else
                         {
-                            SemanticErrors.Add("Incoherencia de tipos");
+                            SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
                         }
                     }
                 }
                 else
                 {
-                    var t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
+                    t = GetOperationType(lf.Tipo, rt.Tipo, context.multOp().GetText());
                     if (t != null)
                     {
                         terminal = lf.Label + " " + context.multOp().GetText() + " " +   rt.Label;
@@ -1228,7 +1288,8 @@ namespace CompilerCLI.ParserTools
                     }
                     else
                     {
-                        SemanticErrors.Add("Incoherencia de tipos");
+                        SemanticErrors.Add($"Incoherencia de tipos. Linea: {sim.Line}. Columna: {sim.Column}");
+
                     }
 
                 }
@@ -1239,6 +1300,7 @@ namespace CompilerCLI.ParserTools
                     Id = node_id++,
                     Label = context.multOp().GetText(),
                     TemporalVar = temporal_n,
+                    Tipo = t
 
                 };
                 r.Children.Add(lf);
@@ -1257,6 +1319,7 @@ namespace CompilerCLI.ParserTools
             if (context.sumaOp()!=null)
             {
                 var nodo = Visit(context.factor());
+                var sim = Visit(context.sumaOp());
                 //ooperacion pendiente
 
                 if (typeof(ASTNode).IsInstanceOfType(nodo))
@@ -1393,6 +1456,10 @@ namespace CompilerCLI.ParserTools
                 var t2 = r.ToLower();
                 t1 = t1 == "int32" ? "int" : t1;
                 t2 = t2 == "int32" ? "int" : t2;
+                t1 = t1 == "double" ? "float" : t1;
+                t2 = t2 == "double" ? "float" : t2;
+                t1 = t1 == "Boolean" ? "bool" : t1;
+                t2 = t2 == "Boolean" ? "bool" : t2;
 
                 if (AreCompatible(t1, t2))
                 {
@@ -1400,7 +1467,7 @@ namespace CompilerCLI.ParserTools
                     {
                         return "float";
                     }
-
+                    
                     if ((t1 == "int" && t2 == "string") || (t2 == "int" && t1 == "string") && sym == "+")
                     {
                         return "string";
