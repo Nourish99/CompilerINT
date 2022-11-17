@@ -12,10 +12,12 @@ namespace CompilerCLI.ParserTools
         public List<ASTNode> Children { get; set; }
         public int Id { get; set; }
         public string Label { get; set; }
-        public string Valor { get; set; }
+        public string? Valor { get; set; }
         public string Tipo { get; set; }
         public string tree { get; set; }
         public string TemporalVar { get; set; }
+        public string Label_Code { get; set; }
+        public string Goto_Code { get; set; }
 
         public ASTNode()
         {

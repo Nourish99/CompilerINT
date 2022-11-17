@@ -365,7 +365,7 @@ namespace CompilerCLI.ParserTools
                 {
                     Id = node_id++,
                     Label = b_exp.ToString(),
-                    Valor = valor.ToString(),
+                    Valor = valor?.ToString(),
                     Tipo = tipo
 
                 });

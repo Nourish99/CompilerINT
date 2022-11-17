@@ -4,6 +4,7 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Tree;
 using CompilerCLI.ANTLR4Files;
 using CompilerCLI.ANTLRParser.antlrOutput;
+using CompilerCLI.GenerateCode;
 using CompilerCLI.Models;
 using CompilerCLI.ParserTools;
 using Newtonsoft.Json.Linq;
@@ -143,6 +144,12 @@ namespace CompilerCLI.Helpers
                     };
                     //Metodo que imprime el arbol en consola, solo abstracto SIN tipos, este va en la pestaña de sintactico, el ultimo parametro es para imprimirlo tipado o no
                     stV.parent.PrintPretty(" ",false, true);
+
+                    IntermediateGenerator ig = new IntermediateGenerator(stV.parent);
+                    ig.genCode(stV.parent);
+                    var i = ig.Intermediate_code;
+                    Console.WriteLine(i);
+
                 }
                 catch (Exception e) {
                     Console.WriteLine(e);
