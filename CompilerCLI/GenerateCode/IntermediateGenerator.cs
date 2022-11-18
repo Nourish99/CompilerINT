@@ -114,11 +114,18 @@ namespace CompilerCLI.GenerateCode
                 }
                 else
                 {
-                    if (labels_stack.Count < 2)
+                    if (labels_stack.Count <= 2)
                     {
                         newLabel();
                         newLabelPush();
                     }
+                    /*
+                    else
+                    {
+                        
+                    }newLabel();
+                    newLabelPush();*/
+
                     var blockif = labels_stack.Pop();
                     //labels_stack.Push(labelCounter++);
                     Intermediate_code += "if ( ";
@@ -127,8 +134,8 @@ namespace CompilerCLI.GenerateCode
                     Intermediate_code += "\n";
                     var ifMark = labels_stack.Pop();
                     var else_goto = labels_stack.Pop();
-                    labels_stack.Push(ifMark);
                     labels_stack.Push(else_goto);
+                    labels_stack.Push(ifMark);
                     labels_stack.Push(blockif);
                     Intermediate_code += "goto L" + else_goto + "\n";
 
@@ -390,11 +397,15 @@ namespace CompilerCLI.GenerateCode
                          newLabel();
                      }*/
                     emitConditionalIf(it.Children[0], null, null);
+                    lastLabelN = labels_stack.Peek();
                     Intermediate_code += "\nL" + labels_stack.Pop() + ": \n";
-                    //labels_stack.Pop();
-                    lastLabelN = labels_stack.Pop();
+                    
+                    /*var trueBlock = labels_stack.Pop();
+                    Intermediate_code += "\nL" + trueBlock + ": \n";
+                    var condicion = labels_stack.Peek();*/
                     genCode(it.Children[1]);
-                    Intermediate_code += "\nL" + lastLabelN + ": \n";
+                    //getSign(it.Children[1]);
+                    Intermediate_code += "\ngoto L" + labels_stack.Pop() + ": \n";
                     //call bloque
 
                     break;
