@@ -53,10 +53,11 @@
             this.tabSintactic = new System.Windows.Forms.TabPage();
             this.richTextBoxSintatic = new System.Windows.Forms.RichTextBox();
             this.tabSemantic = new System.Windows.Forms.TabPage();
-            this.richTextBoxSemanthic = new System.Windows.Forms.RichTextBox();
             this.tabICode = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.symbolsDataGridView = new System.Windows.Forms.DataGridView();
+            this.richTextBoxSemanthic = new System.Windows.Forms.RichTextBox();
+            this.intCode = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.menuStrip3.SuspendLayout();
@@ -65,6 +66,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lexicDataGridView)).BeginInit();
             this.tabSintactic.SuspendLayout();
             this.tabSemantic.SuspendLayout();
+            this.tabICode.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.symbolsDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -327,16 +329,9 @@
             this.tabSemantic.Text = "Semantic";
             this.tabSemantic.UseVisualStyleBackColor = true;
             // 
-            // richTextBoxSemanthic
-            // 
-            this.richTextBoxSemanthic.Location = new System.Drawing.Point(-1, 1);
-            this.richTextBoxSemanthic.Name = "richTextBoxSemanthic";
-            this.richTextBoxSemanthic.Size = new System.Drawing.Size(560, 484);
-            this.richTextBoxSemanthic.TabIndex = 1;
-            this.richTextBoxSemanthic.Text = "";
-            // 
             // tabICode
             // 
+            this.tabICode.Controls.Add(this.intCode);
             this.tabICode.Location = new System.Drawing.Point(4, 29);
             this.tabICode.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabICode.Name = "tabICode";
@@ -367,6 +362,23 @@
             this.symbolsDataGridView.RowTemplate.Height = 25;
             this.symbolsDataGridView.Size = new System.Drawing.Size(560, 488);
             this.symbolsDataGridView.TabIndex = 1;
+            // 
+            // richTextBoxSemanthic
+            // 
+            this.richTextBoxSemanthic.Location = new System.Drawing.Point(-1, 1);
+            this.richTextBoxSemanthic.Name = "richTextBoxSemanthic";
+            this.richTextBoxSemanthic.Size = new System.Drawing.Size(560, 484);
+            this.richTextBoxSemanthic.TabIndex = 1;
+            this.richTextBoxSemanthic.Text = "";
+            // 
+            // intCode
+            // 
+            this.intCode.Location = new System.Drawing.Point(0, 1);
+            this.intCode.Name = "intCode";
+            this.intCode.Size = new System.Drawing.Size(560, 484);
+            this.intCode.TabIndex = 2;
+            this.intCode.Tag = "intCode";
+            this.intCode.Text = "";
             // 
             // CompilerLayout
             // 
@@ -399,6 +411,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.lexicDataGridView)).EndInit();
             this.tabSintactic.ResumeLayout(false);
             this.tabSemantic.ResumeLayout(false);
+            this.tabICode.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.symbolsDataGridView)).EndInit();
             this.ResumeLayout(false);
@@ -434,8 +447,9 @@
         private System.Windows.Forms.TabPage tabSemantic;
         private System.Windows.Forms.TabPage tabICode;
         private System.Windows.Forms.RichTextBox richTextBoxSintatic;
-        private System.Windows.Forms.RichTextBox richTextBoxSemanthic;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.DataGridView symbolsDataGridView;
+        private System.Windows.Forms.RichTextBox richTextBoxSemanthic;
+        private System.Windows.Forms.RichTextBox intCode;
     }
 }

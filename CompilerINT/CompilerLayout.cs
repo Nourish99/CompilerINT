@@ -13,6 +13,7 @@ using CompilerCLI.Helpers;
 using CompilerCLI.Models;
 using Antlr4.Runtime.Tree;
 using CompilerCLI.ParserTools;
+using CompilerCLI.GenerateCode;
 
 namespace CompilerINT
 {
@@ -304,6 +305,10 @@ namespace CompilerINT
                 }
 
                 PopulateSymbolsTable(prm.semanticResult.Variables);
+
+                var intermediateCode = new IntermediateGenerator(prm.semanticResult.ASTTree);
+                intermediateCode.genCode(prm.semanticResult.ASTTree);
+                intCode.Text = intermediateCode.Intermediate_code;
 
             }
             catch (Exception ex)
